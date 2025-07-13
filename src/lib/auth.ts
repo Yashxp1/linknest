@@ -1,15 +1,15 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 export const hashPassword = async (password: string): Promise<string> => {
-  return await bcrypt.hash(password, 10);
+  return await bcryptjs.hash(password, 10);
 };
 
 export const comparePassword = async (
   password: string,
   hashedPassword: string
 ): Promise<boolean> => {
-  return await bcrypt.compare(password, hashedPassword);
+  return await bcryptjs.compare(password, hashedPassword);
 };
 
 export const generateToken = (payload: {
@@ -20,8 +20,6 @@ export const generateToken = (payload: {
     expiresIn: '7d',
   });
 
-  // console.log(token)
-  console.log("------------------->", token)
 
   return token;
 };
