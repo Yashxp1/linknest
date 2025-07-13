@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
         userId: decoded.id,
         title: validatedData.title,
         bio: validatedData.bio,
+        profilePic: validatedData.profilePic,
         slug: slug,
       },
     });
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
       profile: {
         id: decoded.id,
         title: validatedData.title,
+        profilePic: profile.profilePic,
         slug: profile.slug,
         bio: profile.bio,
         createdAt: profile.createdAt,
@@ -73,7 +75,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ProfileData}, {status: 201})
+    return NextResponse.json({ ProfileData }, { status: 201 });
   } catch (error: any) {
     console.error('Error in profile --->', error.message);
     return NextResponse.json({ message: 'Server error' }, { status: 500 });
