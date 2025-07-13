@@ -58,6 +58,7 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error: any) {
+      console.error("SIGNIN ERROR: --->" , error.message)
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
