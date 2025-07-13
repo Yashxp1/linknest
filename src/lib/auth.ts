@@ -20,6 +20,9 @@ export const generateToken = (payload: {
     expiresIn: '7d',
   });
 
+  // console.log(token)
+  console.log("------------------->", token)
+
   return token;
 };
 
