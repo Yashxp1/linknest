@@ -8,7 +8,7 @@ const page = () => {
     <div>
       This is home page
       <div className="flex p-4 gap-3">
-        <Link href="/sign-in">
+        <Link href="/signin">
           <Button>Sign-in</Button>
         </Link>
         <DarkModeToggle />
