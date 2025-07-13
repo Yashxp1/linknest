@@ -29,6 +29,7 @@ model Profile {
   id        String   @id @default(cuid())
   title     String
   bio       String?
+  profilePic  String?
   slug      String   @unique
   userId    String
   user      User     @relation(fields: [userId], references: [id])
