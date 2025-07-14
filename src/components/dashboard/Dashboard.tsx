@@ -1,9 +1,23 @@
-import React from 'react'
+import React from 'react';
+import Preview from '../Preview';
+import AddBtn from '../AddBtn';
+import Card from '../Card';
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
-  )
-}
+    <div className="w-full border h-screen flex">
+      <div className="border w-full">
+        <AddBtn />
 
-export default Dashboard
+        <div>
+          <Card />
+        </div>
+      </div>
+      <div className="border w-[70%] md:flex hidden">
+        <Preview />
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
