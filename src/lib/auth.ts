@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { SignJWT, jwtVerify } from 'jose';
 import bcryptjs from 'bcryptjs';
 
 export const hashPassword = async (password: string): Promise<string> => {
@@ -12,28 +12,31 @@ export const comparePassword = async (
   return await bcryptjs.compare(password, hashedPassword);
 };
 
-export const generateToken = (payload: {
+export const generateToken = async (payload: {
   id: string;
   username: string;
-}): string => {
-  const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: '7d',
-  });
-
-
+}): Promise<string> => {
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+  
+  const token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(secret);
+    
   return token;
 };
 
-export const verifyToken = (
+export const verifyToken = async (
   token: string
-): { id: string; username: string } | null => {
+): Promise<{ id: string; username: string } | null> => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET!) as {
-      id: string;
-      username: string;
-    };
-  } catch (error) {
-    console.error('Invalid token:', error);
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+    const { payload } = await jwtVerify(token, secret);
+    
+    return payload as { id: string; username: string };
+  } catch (error: any) {
+    console.error('Invalid token:', error.message);
     return null;
   }
 };
