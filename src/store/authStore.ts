@@ -25,7 +25,7 @@ type AuthState = {
 export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: false,
 
-  // signup: async (data) => {
+  signup: async (data) => {
     set({ isLoading: true });
     try {
       await axios.post(`${baseURL}/auth/signup`, data, {
