@@ -1,4 +1,4 @@
-import { generateToken, hashPassword } from '@/lib/auth';
+import { generateToken, hashPassword } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { signupSchema } from '@/schemas/authSchema';
 import { NextRequest, NextResponse } from 'next/server';

@@ -1,4 +1,4 @@
-import { verifyToken } from '@/lib/auth';
+import { verifyToken } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { cardSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';

@@ -1,4 +1,4 @@
-import { comparePassword, generateToken } from '@/lib/auth';
+import { comparePassword, generateToken } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { signinSchema } from '@/schemas/authSchema';
 import { NextRequest, NextResponse } from 'next/server';
