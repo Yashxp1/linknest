@@ -10,28 +10,28 @@ type regiterData = {
   password: string;
 };
 
-type signinData = {
+type loginData = {
   username: string;
   password: string;
 };
 
 type AuthState = {
   isLoading: boolean;
-  signup: (data: regiterData) => Promise<boolean>;
-  signin: (data: signinData) => Promise<boolean>;
+  register: (data: regiterData) => Promise<boolean>;
+  login: (data: loginData) => Promise<boolean>;
   logout: () => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: false,
 
-  signup: async (data) => {
+  register: async (data) => {
     set({ isLoading: true });
     try {
-      await axios.post(`${baseURL}/auth/signup`, data, {
+      await axios.post(`${baseURL}/auth/register`, data, {
         withCredentials: true,
       });
-      toast.success('signuped successfully');
+      toast.success('registered successfully');
       return true;
     } catch (error: any) {
       console.error(error);
@@ -41,10 +41,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isLoading: false });
     }
   },
-  signin: async (data: signinData) => {
+  login: async (data: loginData) => {
     set({isLoading: true})
     try {
-      const res = await axios.post(`${baseURL}/auth/signin`, data, {
+      const res = await axios.post(`${baseURL}/auth/login`, data, {
         withCredentials: true,
       });
       toast.success('Signed in successfully');

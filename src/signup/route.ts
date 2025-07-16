@@ -1,12 +1,12 @@
 import { generateToken, hashPassword } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { signupSchema } from '@/schemas/authSchema';
+import { registerSchema } from '@/schemas/authSchema';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const validate = signupSchema.parse(body);
+    const validate = registerSchema.parse(body);
 
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    console.error("SIGNUP ERROR: --->" , error.message)
+    console.error("register ERROR: --->" , error.message)
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
