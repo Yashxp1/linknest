@@ -21,7 +21,7 @@ export const {
       }
 
       const existingUser = await getUserById(user.id ?? '');
-      if (!existingUser?.emailVerified) return false;
+      // if (!existingUser?.emailVerified) return false;
 
       return true;
     },
