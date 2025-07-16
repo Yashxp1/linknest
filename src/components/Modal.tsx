@@ -1,5 +1,4 @@
 'use client';
-import { X } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -34,7 +33,7 @@ export const Modal = ({
               </div>
               <div className='flex gap-4 pt-4 justify-center items-center'>
                 <Button onClick={closeModal} variant='outline' className='w-full '>Close</Button>
-                <Button onClick={closeModal} className='w-full'>Add</Button>
+                <Button  className='w-full'>Add</Button>
               </div>
             </div>
           </div>
