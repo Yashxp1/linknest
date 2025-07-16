@@ -2,6 +2,8 @@ import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './lib/prisma';
 import authConfig from './auth.config';
+import { getUserById } from './data/user';
+import { getAccountByUserId } from './data/accounts';
 
 export const {
   handlers: { GET, POST },
@@ -11,5 +13,47 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
-  ...authConfig
+  ...authConfig,
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider !== 'credentials') {
+        return true;
+      }
+
+      const existingUser = await getUserById(user.id ?? '');
+      if (!existingUser?.emailVerified) return false;
+
+      return true;
+    },
+
+    async jwt({ token }) {
+      if (!token.sub) return token;
+
+      const existingUser = await getUserById(token.sub);
+
+      if (!existingUser) return token;
+
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
+      token.isOauth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      token.image = existingUser.image;
+
+      return token;
+    },
+    async session({ token, session }) {
+      // console.log('Session token: ', token);
+      // console.log('Session object: ', session);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          isOauth: token.isOauth,
+        },
+      };
+    },
+  },
 });
