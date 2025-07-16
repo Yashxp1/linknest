@@ -54,7 +54,7 @@ const RegisterForm = () => {
         setError(res.error);
       } else if (res?.success) {
         setSuccess(res.success);
-        router.push('/dashboard'); // Adjust this route as needed
+        router.push('/login'); // Adjust this route as needed
       }
     } catch (err) {
       console.error(err);

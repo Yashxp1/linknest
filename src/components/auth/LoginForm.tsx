@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import GoogleLogin from './GoogleLogin';
 import { LoginSchema } from '@/schemas/authSchema';
 import { useState } from 'react';
@@ -23,7 +23,7 @@ import { login } from '@/actions/login';
 type LoginFormData = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -48,7 +48,7 @@ const onSubmit = async (data: LoginFormData) => {
         setIsLoading(false);
       }
       if (res.success) {
-        router.push('/dashboard')
+        // router.push('/dashboard')
         setError('');
         setSuccess(res.success);
         setIsLoading(false);
