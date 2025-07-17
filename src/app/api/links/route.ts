@@ -1,67 +1,43 @@
-import { verifyToken } from '@/auth';
+import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { linkSchema } from '@/schemas/linkSchema';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const token = req.cookies.get('session')?.value;
-    if (!token) {
+    const session = await auth();
+
+    if (!session || !session.user || !session.user.email) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const decoded = verifyToken(token);
+    const body = await req.json();
+    const validatedData = linkSchema.parse(body);
 
-    if (!decoded || !decoded.id) {
+    const latestOrder = await prisma.link.count({
+      where: { profileId: validatedData.profileId },
+    });
+
+    const link = await prisma.link.create({
+      data: {
+        title: validatedData.title,
+        url: validatedData.url,
+        profileId: validatedData.profileId,
+        order: latestOrder + 1,
+      },
+    });
+
+    return NextResponse.json({ success: true, link }, { status: 200 });
+  } catch (error: any) {
+    console.error(error);
+
+    if (error.name === 'ZodError') {
       return NextResponse.json(
-        {
-          message: 'Unauthorized',
-        },
-        { status: 401 }
+        { success: false, message: error.errors },
+        { status: 400 }
       );
     }
 
-    const body = await req.json();
-    const validate = linkSchema.parse(body);
-
-    const profile = await prisma.profile.findFirst({
-      where: {
-        userId: decoded.id,
-      },
-    });
-
-    if (!profile) {
-      return NextResponse.json({ message: 'User not found' }, { status: 500 });
-    }
-
-    const existingLinks = await prisma.link.findMany({
-      where: {
-        profileId: profile.id,
-      },
-      orderBy: {
-        order: 'desc',
-      },
-      take: 1,
-    });
-
-    const nextOrder = existingLinks.length > 0 ? existingLinks[0].order + 1 : 0;
-
-    const createLink = await prisma.link.create({
-      data: {
-        title: validate.title,
-        url: validate.url,
-        profileId: profile.id,
-        order: nextOrder,
-      },
-    });
-
-    return NextResponse.json({
-      message: 'Link created successfully',
-      link: createLink,
-    });
-    
-  } catch (error: any) {
-    console.error('Link error ---> ', error.message);
-    return NextResponse.json({ message: 'Server Error' }, { status: 500 });
+    return NextResponse.json({ success: 'Server Error' }, { status: 500 });
   }
 }
