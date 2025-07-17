@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         order: latestOrder + 1,
       },
     });
-    console.log(link)
+    // console.log(link)
     return NextResponse.json({ success: true, link }, { status: 200 });
   } catch (error: any) {
     console.error(error);
