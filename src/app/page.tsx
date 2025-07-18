@@ -11,7 +11,7 @@ const page = async () => {
     <div>
       This is home page
       <div className="flex p-4 gap-3">
-        <Link href="/login">
+        <Link href="/auth/login">
           <Button>Login</Button>
         </Link>
         <DarkModeToggle />
