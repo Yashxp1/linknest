@@ -4,17 +4,21 @@ import { Menu } from 'lucide-react';
 import React from 'react';
 import Sidebar from './Sidebar';
 import Logo from './Logo';
+import { DarkModeToggle } from './DarkModeToggle';
 
 const Navbar = () => {
   return (
     <Sidebar
       trigger={(openSidebar) => (
-        <div className="border flex items-center w-full py-3">
-          <div className="text-gray-400 px-4">
+        <div className=" flex items-center justify-between w-full px-3 py-1">
+          <div className=" flex justify-center items-center gap-6 px-4">
             <Menu onClick={openSidebar} />
-          </div>
           <div>
             <Logo />
+          </div>
+          </div>
+          <div>
+            <DarkModeToggle/>
           </div>
         </div>
       )}

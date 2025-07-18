@@ -6,7 +6,7 @@ const Card = () => {
   return (
     <div className="border rounded-2xl m-4 p-2 flex justify-between items-center">
       <div className='flex items-center'>
-        <div className='px-2'>
+        <div className='px-2 cursor-grab'>
           <Grip size={16}/>
         </div>
         <div className="pl-2 flex flex-col ">
