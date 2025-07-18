@@ -58,7 +58,8 @@ model VerificationToken {
 model Profile {
   id         String  @id @default(cuid())
   bio        String?
-  title      String
+  title      String?
+  location   String?
   slug       String  @unique
   userId     String
   user       User    @relation(fields: [userId], references: [id])
