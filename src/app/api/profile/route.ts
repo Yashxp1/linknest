@@ -1,6 +1,6 @@
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { cardSchema } from '@/schemas/profileSchema';
+import { profileSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const validatedData = cardSchema.parse(body);
+    const validatedData = profileSchema.parse(body);
 
     // const slug =
     //   validatedData.slug ??
@@ -23,11 +23,14 @@ export async function POST(req: NextRequest) {
       data: {
         userId: session.user.id,
         title: validatedData.title,
+        location: validatedData.location,
         bio: validatedData.bio,
         profilePic: validatedData.profilePic,
         slug: validatedData.slug,
       },
     });
+
+    // console.log('PROFILE SESSION ID: ', session.user.id);
 
     return NextResponse.json({ success: true, profile }, { status: 201 });
   } catch (error: any) {
