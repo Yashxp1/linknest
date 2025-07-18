@@ -1,26 +1,27 @@
 import { Switch } from '@/components/ui/switch';
 import { Grip, Pencil, X } from 'lucide-react';
 import React from 'react';
+import DropDown from './DropDown';
 
 const Card = () => {
   return (
     <div className="border rounded-2xl m-4 p-2 flex justify-between items-center">
-      <div className='flex items-center'>
-        <div className='px-2 cursor-grab'>
-          <Grip size={16}/>
+      <div className="flex items-center">
+        <div className="px-2 cursor-grab">
+          <Grip size={16} />
         </div>
         <div className="pl-2 flex flex-col ">
           <p className="font-semibold flex items-center  gap-2">
             Google
-            <span>
+            {/* <span>
               <Pencil size={14} />
-            </span>
+            </span> */}
           </p>
           <p className="flex items-center  gap-2">
             www.google.com
-            <span>
+            {/* <span>
               <Pencil size={14} />
-            </span>
+            </span> */}
           </p>
         </div>
       </div>
@@ -29,8 +30,11 @@ const Card = () => {
           <Switch />
         </div>
         <div>
-          <X />
+          <DropDown />
         </div>
+        {/* <div>
+          <X />
+        </div> */}
       </div>
     </div>
   );
