@@ -8,6 +8,7 @@ import { linkSchema } from '@/schemas/linkSchema';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 type LinkFormData = z.infer<typeof linkSchema>;
 
@@ -49,11 +50,13 @@ export const Modal = ({
     await setLink(data).then((res) => {
       if (res.error) {
         setError(res.error);
+        toast.error('Error adding link');
         // isLoading: false;
       }
       if (res.success) {
         setError('');
         console.log(res);
+        toast.success('Link added!');
         setSuccess(res.success);
         closeModal();
         // isLoading: false;

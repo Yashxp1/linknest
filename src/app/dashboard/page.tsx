@@ -13,7 +13,7 @@ const page = () => {
         <div className='w-full'>
           <Navbar />
         </div>
-        <div>
+        <div className=''>
 
         <Dashboard />
         </div>

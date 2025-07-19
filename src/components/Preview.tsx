@@ -2,7 +2,7 @@ import React from 'react'
 
 const Preview = () => {
   return (
-    <div className=''>Preview</div>
+    <div className='h-screen '>Preview</div>
   )
 }
 

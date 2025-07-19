@@ -3,8 +3,10 @@ import React from 'react';
 import { Button } from './ui/button';
 import { Divide, Plus } from 'lucide-react';
 import { Modal } from './Modal';
+import { auth } from '@/auth';
 
 const AddBtn = () => {
+
   return (
     <Modal
       trigger={(openModal) => (
@@ -18,10 +20,10 @@ const AddBtn = () => {
                     alt="pfp"
                     className="w-18 h-18 object-cover rounded-full border"
                   />
-                  <div className='px-4 flex flex-col'>
-                    <span className='font-semibold'>Yashxp1</span>
-                    <p className='text-md'>Full-Stack developer</p>
-                    <p className='text-sm'>Ranchi, India</p>
+                  <div className="px-4 flex flex-col">
+                    <span className="font-semibold">Yashxp1</span>
+                    <p className="text-md">Full-Stack developer</p>
+                    <p className="text-sm">Ranchi, India</p>
                   </div>
                 </div>
               </div>
