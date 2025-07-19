@@ -1,41 +1,64 @@
+'use client';
 import { Switch } from '@/components/ui/switch';
 import { Grip, Pencil, X } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DropDown from './DropDown';
+import { userLinkStore } from '@/store/linkStore';
 
 const Card = () => {
+  const { isLoading } = userLinkStore();
+  const links = userLinkStore((state) => state.links);
+  const getLink = userLinkStore((state) => state.getLink);
+
+  useEffect(() => {
+    getLink();
+  }, []);
+
   return (
-    <div className="border rounded-2xl m-4 p-2 flex justify-between items-center">
-      <div className="flex items-center">
-        <div className="px-2 cursor-grab">
-          <Grip size={16} />
+    <div className="m-4 space-y-3 h-screen">
+      {isLoading && (
+        <div className="border rounded-2xl p-4">
+          <p className="text-gray-500">Loading links...</p>
         </div>
-        <div className="pl-2 flex flex-col ">
-          <p className="font-semibold flex items-center  gap-2">
-            Google
-            {/* <span>
-              <Pencil size={14} />
-            </span> */}
-          </p>
-          <p className="flex items-center  gap-2">
-            www.google.com
-            {/* <span>
-              <Pencil size={14} />
-            </span> */}
-          </p>
+      )}
+
+      {links.length === 0 && !isLoading && (
+        <div className="border rounded-2xl p-4">
+          <p className="text-gray-500">No links found.</p>
         </div>
-      </div>
-      <div className="pr-2 pt-2 flex flex-col justify-between items-center gap-6">
-        <div>
-          <Switch />
+      )}
+
+      {links.map((link) => (
+        <div
+          key={link.id}
+          className="border rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow"
+        >
+          <div className="flex items-center justify-between">
+            {/* Left side - Grip and Link Info */}
+            <div className="flex items-center flex-1 min-w-0">
+              <div className="cursor-grab mr-3">
+                <Grip size={16} className="text-gray-400" />
+              </div>
+              <div className=" flex-col min-w-0 inline-block flex-1">
+                <p className="font-semibold truncate">{link.title}</p>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  className="text-sm cursor-pointer  truncate"
+                >
+                  {link.url}
+                </a>
+              </div>
+            </div>
+
+            {/* Right side - Controls */}
+            <div className="flex flex-col items-center gap-4 ml-4">
+              <Switch />
+              <DropDown />
+            </div>
+          </div>
         </div>
-        <div>
-          <DropDown />
-        </div>
-        {/* <div>
-          <X />
-        </div> */}
-      </div>
+      ))}
     </div>
   );
 };
