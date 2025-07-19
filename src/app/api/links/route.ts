@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unathorized' }, { status: 401 });
     }
 
-     const body = await req.json();
+    const body = await req.json();
     const result = linkSchema.safeParse(body);
 
     if (!result.success) {
@@ -90,8 +90,15 @@ export async function GET(req: NextRequest) {
     }
 
     const links = await prisma.link.findMany({
-      where: {
-        userId: user.id,
+      where: { userId: user.id },
+      select: {
+        id: true,
+        title: true,
+        url: true,
+        order: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
       },
     });
 
@@ -173,7 +180,34 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { linkId } = deleteSchema.parse(await req.json());
+    const body = await req.json();
+    console.log('DELETE request body:', body);
+    const result = deleteSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { message: 'Invalid input', errors: result.error },
+        { status: 400 }
+      );
+    }
+
+    const { linkId } = result.data;
+
+    const existinfLink = await prisma.link.findFirst({
+      where: {
+        id: linkId,
+        userId: user.id,
+      },
+    });
+
+    if (!existinfLink) {
+      return NextResponse.json(
+        {
+          message: 'Link not found',
+        },
+        { status: 404 }
+      );
+    }
 
     const deletedLink = await prisma.link.delete({
       where: {
