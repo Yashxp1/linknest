@@ -1,8 +1,12 @@
-import { linkSchema } from '@/schemas/linkSchema';
+import {
+  deleteSchema,
+  linkSchema,
+  linkUpdateSchema,
+} from '@/schemas/linkSchema';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 import { z } from 'zod';
-import axios from 'axios'
+import axios from 'axios';
 
 const baseURL = 'http://localhost:3000/api';
 
@@ -17,28 +21,97 @@ type Link = {
 
 type LinkStore = {
   isLoading: boolean;
-  setLink: (data: z.infer<typeof linkSchema>) => Promise<{ success?: string; error?: string }>;
-  deleteLink: () => void;
+  links: Link[];
+  setLinks: (links: Link[]) => void;
+
+  setLink: (
+    data: z.infer<typeof linkSchema>
+  ) => Promise<{ success?: string; error?: string }>;
+
+  getLink: () => Promise<{ success?: string; error?: string }>;
+
+  updateLink: (
+    data: z.infer<typeof linkUpdateSchema>
+  ) => Promise<{ success?: string; error?: string }>;
+
+  deleteLink: (
+    data: z.infer<typeof deleteSchema>
+  ) => Promise<{ success?: string; error?: string }>;
 };
 
 export const userLinkStore = create<LinkStore>((set) => ({
   isLoading: false,
+  links: [],
+
+  setLinks: (links) => set({ links }),
 
   setLink: async (data) => {
     set({ isLoading: true });
     try {
       const res = await axios.post(`${baseURL}/links`, data);
-      console.log(res.data);
-
-      return res.data;
+      const response = res.data as { message?: string };
+      
+      toast.success(response.message || 'Link added successfully');
+      return { success: response.message || 'Link added successfully' };
     } catch (error: any) {
-      console.log(error)
       toast.error(error.response?.data?.message || 'Failed to add link!');
-      return error;
+      return { error: error.response?.data?.message || 'Failed to add link!' };
     } finally {
       set({ isLoading: false });
     }
   },
 
-  deleteLink: async () => {},
+  getLink: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axios.get(`${baseURL}/links`);
+      const response = res.data as { success: boolean; res: Link[] };
+      set({ links: response.res });
+
+      console.log('LINKS --->', response.res);
+      // console.log(res.data);
+      return { success: 'Links fetched successfully' };
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to get link!');
+      return { error: error.response?.data?.message || 'Failed to get link!' };
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updateLink: async (data) => {
+    set({ isLoading: true });
+    try {
+      const res = await axios.put(`${baseURL}/links`, data);
+      const response = res.data as { message?: string };
+      toast.success(response.message || 'Link updated successfully');
+      return { success: response.message || 'Link updated successfully' };
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to update link!');
+      return {
+        error: error.response?.data?.message || 'Failed to update link!',
+      };
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  deleteLink: async (data) => {
+    set({ isLoading: true });
+    try {
+      const res = await axios.delete(`${baseURL}/links`, {
+        data,
+      } as any);
+      const response = res.data as { message?: string };
+      toast.success(response.message || 'Link deleted successfully');
+      return { success: response.message || 'Link deleted successfully' };
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to delete link!');
+      return {
+        error: error.response?.data?.message || 'Failed to delete link!',
+      };
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));

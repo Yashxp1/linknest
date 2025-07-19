@@ -10,5 +10,15 @@ export const linkSchema = z.object({
     .string()
     .min(1, 'URL is required')
     .regex(urlRegex, 'Invalid URL format'),
-    // profileId: z.string().cuid('Invalid Profile ID'),
+  // userId: z.string(),
+});
+
+export const linkUpdateSchema = z.object({
+  linkId: z.string(),
+  title: z.string(),
+  url: z.string(),
+});
+
+export const deleteSchema = z.object({
+  linkId: z.string(),
 });
