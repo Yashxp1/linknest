@@ -5,8 +5,8 @@ import Link from 'next/link';
 import React from 'react';
 
 const page = async () => {
-  const authSession = await auth()
-  console.log(authSession)
+  // const authSession = await auth()
+  // console.log(authSession?.user?.id)
   return (
     <div>
       This is home page
