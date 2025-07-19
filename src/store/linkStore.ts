@@ -17,6 +17,7 @@ type Link = {
   order: number;
   createdAt: Date;
   updatedAt: Date;
+  userId:string
 };
 
 type LinkStore = {
@@ -39,7 +40,7 @@ type LinkStore = {
   ) => Promise<{ success?: string; error?: string }>;
 };
 
-export const userLinkStore = create<LinkStore>((set) => ({
+export const userLinkStore = create<LinkStore>((set, get) => ({
   isLoading: false,
   links: [],
 
@@ -52,6 +53,7 @@ export const userLinkStore = create<LinkStore>((set) => ({
       const response = res.data as { message?: string };
       
       toast.success(response.message || 'Link added successfully');
+      await get().getLink();
       return { success: response.message || 'Link added successfully' };
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to add link!');
