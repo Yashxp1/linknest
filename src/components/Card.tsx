@@ -4,8 +4,11 @@ import { Grip, Pencil, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import DropDown from './DropDown';
 import { userLinkStore } from '@/store/linkStore';
+import { useSession } from 'next-auth/react';
 
 const Card = () => {
+
+
   const { isLoading } = userLinkStore();
   const links = userLinkStore((state) => state.links);
   const getLink = userLinkStore((state) => state.getLink);
@@ -13,6 +16,8 @@ const Card = () => {
   useEffect(() => {
     getLink();
   }, []);
+
+
 
   return (
     <div className="m-4 space-y-3 h-screen">
@@ -54,7 +59,7 @@ const Card = () => {
             {/* Right side - Controls */}
             <div className="flex flex-col items-center gap-4 ml-4">
               <Switch />
-              <DropDown />
+              <DropDown linkId={link.id} userId={link.userId} />
             </div>
           </div>
         </div>

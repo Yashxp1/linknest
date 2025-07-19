@@ -70,10 +70,10 @@ export const Modal = ({
       {isOpen && (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="fixed inset-0 bg-black/50  z-40 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/50  backdrop-blur-xs z-40 animate-in fade-in duration-300"
         >
           <div className="flex justify-center items-center h-screen">
-            <div className="flex flex-col justify-center items-center dark:bg-[#191919] rounded-2xl p-5 bg-white w-[30%]">
+            <div className="flex flex-col justify-center items-center dark:bg-[#191919] border rounded-sm p-5 bg-white w-[30%]">
               <div className="w-full flex flex-col gap-4">
                 <div className=" flex flex-col gap-3">
                   <Label htmlFor="title">Title</Label>
