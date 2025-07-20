@@ -1,43 +1,43 @@
+import { profileSchema } from '@/schemas/profileSchema';
 import { toast } from 'sonner';
+import z from 'zod';
 import { create } from 'zustand';
 
 const baseURL = 'http://localhost:3000/api';
 
 type Profile = {
-  title: string;
-  bio?: string;
-  profileId: string;
-  slug: string;
   userId: string;
+  bio: string;
+  slug: string;
+  profileId: string;
   profilePic?: string;
   createdAt: Date;
   updatedAt: Date;
 };
 
 type ProfileStore = {
-  profile: Profile | null;
   isLoading: boolean;
-  setProfile: (profile: Profile) => void;
+  setProfile: (
+    data: z.infer<typeof profileSchema>
+  ) => Promise<{ success?: string; error?: string }>;
   deleteProfile: () => void;
 };
 
 export const userProfileStore = create<ProfileStore>((set) => ({
-  profile: null,
   isLoading: false,
 
-  setProfile: async (profile) => {
+  setProfile: async (data) => {
     set({ isLoading: true });
     try {
-      const res = await axios.post(`${baseURL}/profile`);
+      const res = await axios.post(`${baseURL}/profile`, data);
       console.log(res.data);
       return res.data;
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to set profile');
+      return error;
     } finally {
       set({ isLoading: false });
     }
   },
-  deleteProfile: async () => {
-    set({ profile: null });
-  },
+  deleteProfile: async () => {},
 }));
