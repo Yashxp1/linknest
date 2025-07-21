@@ -1,30 +1,35 @@
-'use client';
-import { useState } from 'react';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Button } from './ui/button';
+import { linkUpdateSchema } from '@/schemas/linkSchema';
 import { userLinkStore } from '@/store/linkStore';
-import { linkSchema } from '@/schemas/linkSchema';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { z } from 'zod';
+import { Button } from '../ui/button';
 
-type LinkFormData = z.infer<typeof linkSchema>;
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
-export const Modal = ({
-  trigger,
-}: {
+type UpdateLinkFormatData = z.infer<typeof linkUpdateSchema>;
+
+interface UpdateLinkModalProps {
   trigger: (openModal: () => void) => React.ReactNode;
-}) => {
+  link: {
+    linkId: string;
+    title: string;
+    url: string;
+  };
+}
+const UpdateLinkModal = ({ trigger, link }: UpdateLinkModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<LinkFormData>({
-    resolver: zodResolver(linkSchema),
+  } = useForm<UpdateLinkFormatData>({
+    resolver: zodResolver(linkUpdateSchema),
     defaultValues: {
+      linkId: '',
       title: '',
       url: '',
     },
@@ -37,17 +42,21 @@ export const Modal = ({
 
   const closeModal = () => setIsOpen(false);
   const openModal = () => {
-    reset();
+    reset({
+      linkId: link.linkId,
+      title: link.title,
+      url: link.url,
+    });
     setSuccess('');
     setError('');
     setIsOpen(true);
   };
 
-  const { isLoading, setLink } = userLinkStore();
+  const { isLoading, updateLink, getLink } = userLinkStore();
 
-  const onSubmit = async (data: LinkFormData) => {
+  const onSubmit = async (data: UpdateLinkFormatData) => {
     // isLoading: true;
-    await setLink(data).then((res) => {
+    await updateLink(data).then((res) => {
       if (res.error) {
         setError(res.error);
         toast.error('Error adding link');
@@ -56,6 +65,7 @@ export const Modal = ({
       if (res.success) {
         setError('');
         console.log(res);
+        getLink()
         toast.success('Link added!');
         setSuccess(res.success);
         closeModal();
@@ -103,9 +113,8 @@ export const Modal = ({
                 >
                   Close
                 </Button>
-                <Button type='submit' className="w-full">
-                  {isLoading ? 'Loading...' : 'Add'}
-                  
+                <Button type="submit" className="w-full">
+                {isLoading ? 'Updating...' : 'Update'}
                 </Button>
               </div>
             </div>
@@ -115,3 +124,5 @@ export const Modal = ({
     </div>
   );
 };
+
+export default UpdateLinkModal;

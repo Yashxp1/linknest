@@ -14,7 +14,7 @@ const Dashboard = () => {
           <Card />
         </div>
       </div>
-      <div className="w-[30%] md:flex justify-center items-center hidden">
+      <div className="w-[30%] lg:flex justify-center items-center hidden">
         <Preview />
       </div>
     </div>

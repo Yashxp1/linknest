@@ -1,4 +1,4 @@
-import { Link, LogOut, User, UserPlus } from 'lucide-react';
+import { Link, LogOut, User } from 'lucide-react';
 import React from 'react';
 import { DarkModeToggle } from './DarkModeToggle';
 
