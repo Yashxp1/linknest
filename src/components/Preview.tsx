@@ -1,8 +1,9 @@
 import React from 'react'
+import ProfileCard from './ProfileCard'
 
 const Preview = () => {
   return (
-    <div className='h-screen '>Preview</div>
+    <div className=''><ProfileCard></ProfileCard></div>
   )
 }
 

@@ -15,7 +15,7 @@ const Dashboard = () => {
           <Card />
         </div>
       </div>
-      <div className=" w-[70%] md:flex hidden">
+      <div className=" w-[40%] md:flex justify-center items-center hidden">
         <Preview />
         {/* <Profile /> */}
       </div>

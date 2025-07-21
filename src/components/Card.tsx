@@ -20,7 +20,7 @@ const Card = () => {
 
 
   return (
-    <div className="m-4 space-y-3 h-screen">
+    <div className="m-4 space-y-3">
       {isLoading && (
         <div className="border rounded-2xl p-4">
           <p className="text-gray-500">Loading links...</p>
