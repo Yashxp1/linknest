@@ -13,6 +13,11 @@ export const linkSchema = z.object({
   // userId: z.string(),
 });
 
+export const bioSchema = z.object({
+  bio: z.string().optional(),
+  location: z.string().optional(),
+});
+
 export const linkUpdateSchema = z.object({
   linkId: z.string(),
   title: z.string(),
