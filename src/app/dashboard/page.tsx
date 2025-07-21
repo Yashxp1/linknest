@@ -10,7 +10,7 @@ const page = () => {
         {/* <Sidebar /> */}
       </div>
       <div className='w-full'>
-        <div className='w-full pb-[43px]'>
+        <div className='w-full pb-[36px]'>
           <Navbar />
         </div>
         <div className=''>

@@ -17,7 +17,7 @@ const MonaSansfont = Mona_Sans({
 const ProfileCard = () => {
   return (
     <div className={`${MonaSansfont.className}`}>
-      <div className="justify-center px-2 rounded-4xl pt-2 pb-4 bg-gradient-to-br from-pink-300 via-white to-blue-100 items-center flex flex-col  shadow-lg hover:shadow-xl transition-all duration-300  backdrop-blur-sm">
+      <div className="justify-center px-2 rounded-4xl pt-2 pb-4 bg-gradient-to-br from-pink-300 via-white to-blue-100 items-center flex flex-col  shadow-lg hover:shadow-xl shadow-purple-300 dark:shadow-none transition-all duration-300  backdrop-blur-sm">
         <div className="relative w-84 aspect-square overflow-hidden rounded-4xl group">
           <Image
             // src="/person1.avif"
@@ -29,10 +29,10 @@ const ProfileCard = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
 
-        <div className="w-84 mt-4">
+        <div className="w-84 mt-2">
           <div className="pl-5">
-            <h2 className="text-2xl font-semibold text-transparent bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text hover:from-blue-600 hover:to-purple-600 transition-all duration-300">
-              Yashxp1
+            <h2 className="text-2xl  font-bold text-transparent bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text hover:from-blue-600 hover:to-purple-600 transition-all duration-300">
+              Aayush Shrivastava
             </h2>
             <p className="text-gray-600 text-sm hover:text-gray-800 transition-colors duration-200">
               San-francisco, USA

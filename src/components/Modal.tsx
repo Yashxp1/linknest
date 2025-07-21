@@ -75,6 +75,7 @@ export const Modal = ({
           <div className="flex justify-center items-center h-screen">
             <div className="flex flex-col justify-center items-center dark:bg-[#191919] border rounded-sm p-5 bg-white w-[30%]">
               <div className="w-full flex flex-col gap-4">
+                {/* <h1 className='text-4xl'>Add Link</h1> */}
                 <div className=" flex flex-col gap-3">
                   <Label htmlFor="title">Title</Label>
                   <Input id="title" {...register('title')} />

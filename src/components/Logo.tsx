@@ -1,12 +1,29 @@
-import { Pacifico } from 'next/font/google';
+import { Sparkles } from 'lucide-react';
+import { Manrope } from 'next/font/google';
+import Link from 'next/link';
 
-const PacificoFont = Pacifico({
-  subsets: ["latin"],
-  weight:"400"
-})
+const manropefont = Manrope({
+  subsets: ['latin'],
+  weight: '400',
+});
 
 const Logo = () => {
-  return <div className={`${PacificoFont.className} text-xl`}>linknest</div>;
+  return (
+    <div
+      className={`${manropefont.className} text-xl flex justify-center items-center gap-2`}
+    >
+      <Link href="/">
+        <div className="flex justify-center items-center gap-2">
+          <div>
+            <Sparkles />
+          </div>
+          <div className="flex">
+            <p className="font-bold">LinkNest</p>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
 };
 
 export default Logo;

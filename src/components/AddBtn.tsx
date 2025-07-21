@@ -27,6 +27,7 @@ const AddBtn = () => {
                   </div>
                 </div>
                 <div className='pt-4'>
+                  {/* <EditBtn></EditBtn> */}
                   <Pencil size={18} />
                 </div>
               </div>
