@@ -15,6 +15,7 @@ export const linkSchema = z.object({
 export const bioSchema = z.object({
   bio: z.string().optional(),
   location: z.string().optional(),
+  slug: z.string(),
 });
 
 export const linkUpdateSchema = z.object({
