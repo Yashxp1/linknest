@@ -12,8 +12,10 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  bio           String?
+  location      String?
   image         String?
-  slug          String?    @unique
+  slug          String?   @unique
   password      String?
   links         Link[]
   accounts      Account[]
