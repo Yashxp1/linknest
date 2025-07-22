@@ -8,29 +8,32 @@ const baseURL = 'http://localhost:3000/api';
 type Profile = {
   userId: string;
   bio: string;
+  location: string;
   slug: string;
-  profileId: string;
-  profilePic?: string;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
 type ProfileStore = {
+  profile: Profile | null;
   isLoading: boolean;
   setProfile: (
     data: z.infer<typeof profileSchema>
   ) => Promise<{ success?: string; error?: string }>;
   deleteProfile: () => void;
+  setProfileState: (data: Profile) => void; // <- to manually update local state
 };
 
 export const userProfileStore = create<ProfileStore>((set) => ({
   isLoading: false,
+  profile: null,
+  setProfileState: (data) => set({ profile: data }),
 
   setProfile: async (data) => {
     set({ isLoading: true });
     try {
       const res = await axios.post(`${baseURL}/profile`, data);
+      const response = res.data as { message?: string };
       console.log(res.data);
+      toast.success(response.message || 'Link added successfully');
       return res.data;
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to set profile');

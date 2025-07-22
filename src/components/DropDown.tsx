@@ -1,4 +1,5 @@
 'use client';
+import { auth } from '@/auth';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,26 +7,21 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { userLinkStore } from '@/store/linkStore';
-import { Pencil, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 // import { useEffect, useState } from 'react';
-import UpdateLinkModal from './Modal/UpdateLinkModal';
 
 interface DropDownProps {
-  link: {
-    linkId: string;
-    title: string;
-    url: string;
-    userId: string;
-  };
+  linkId: string;
+  userId: string;
 }
 
-const DropDown = ({ link }: DropDownProps) => {
+const DropDown = ({ linkId, userId }: DropDownProps) => {
   const { isLoading, deleteLink, getLink } = userLinkStore();
   // const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      const res = await deleteLink({ linkId: link.linkId });
+      const res = await deleteLink({ linkId: linkId });
       if (res.success) {
         await getLink();
         //  setIsOpen(false)
@@ -41,29 +37,19 @@ const DropDown = ({ link }: DropDownProps) => {
 
   return (
     <div className="  ">
-      <UpdateLinkModal
-        trigger={(openModal) => (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Plus />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem variant="destructive"> Cancel</DropdownMenuItem>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Plus />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem variant="destructive"> Cancel</DropdownMenuItem>
 
-              <DropdownMenuItem onClick={openModal}>Edit</DropdownMenuItem>
-
-              <DropdownMenuItem onClick={handleDelete} disabled={isLoading}>
-                {isLoading ? 'Deleting...' : 'Delete'}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
-        link={{
-          linkId: link.linkId,
-          title: link.title,
-          url: link.url,
-        }}
-      />
+          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete} disabled={isLoading}>
+            {isLoading ? 'Deleting...' : 'Delete'}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };
