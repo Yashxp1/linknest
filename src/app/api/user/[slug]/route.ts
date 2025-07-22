@@ -1,9 +1,7 @@
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { bioSchema } from '@/schemas/linkSchema';
-import { NextApiRequest } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
-import { json } from 'zod';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: session.user.email,
+        email: session.user.email,
       },
     });
 
@@ -32,10 +30,14 @@ export async function POST(req: NextRequest) {
 
     const validatedData = result.data;
 
-    const bioData = await prisma.user.create({
+    const bioData = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
       data: {
         bio: validatedData.bio,
         location: validatedData.location,
+        slug: validatedData.slug,
       },
     });
 
@@ -46,7 +48,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(
-  req: NextResponse,
+  req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
