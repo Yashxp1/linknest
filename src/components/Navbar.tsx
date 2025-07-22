@@ -5,6 +5,7 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import Logo from './Logo';
 import { DarkModeToggle } from './DarkModeToggle';
+import { Button } from './ui/button';
 
 const Navbar = () => {
   return (
@@ -15,9 +16,10 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        <button className="px-5 py-1 text-semibold dark:bg-white dark:text-black bg-black/80 text-white border rounded-sm">
+        <Button variant="outline" className="px-6">
+          {' '}
           Share
-        </button>
+        </Button>
       </div>
     </div>
   );
