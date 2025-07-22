@@ -8,11 +8,8 @@ const baseURL = 'http://localhost:3000/api';
 type Profile = {
   userId: string;
   bio: string;
+  location: string;
   slug: string;
-  profileId: string;
-  profilePic?: string;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
 type ProfileStore = {
@@ -30,7 +27,9 @@ export const userProfileStore = create<ProfileStore>((set) => ({
     set({ isLoading: true });
     try {
       const res = await axios.post(`${baseURL}/profile`, data);
+      const response = res.data as { message?: string };
       console.log(res.data);
+      toast.success(response.message || 'Link added successfully');
       return res.data;
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to set profile');
