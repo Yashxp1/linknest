@@ -13,15 +13,19 @@ type Profile = {
 };
 
 type ProfileStore = {
+  profile: Profile | null;
   isLoading: boolean;
   setProfile: (
     data: z.infer<typeof profileSchema>
   ) => Promise<{ success?: string; error?: string }>;
   deleteProfile: () => void;
+  setProfileState: (data: Profile) => void; // <- to manually update local state
 };
 
 export const userProfileStore = create<ProfileStore>((set) => ({
   isLoading: false,
+  profile: null,
+  setProfileState: (data) => set({ profile: data }),
 
   setProfile: async (data) => {
     set({ isLoading: true });
