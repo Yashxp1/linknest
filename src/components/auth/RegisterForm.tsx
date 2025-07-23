@@ -54,7 +54,7 @@ const RegisterForm = () => {
         setError(res.error);
       } else if (res?.success) {
         setSuccess(res.success);
-        router.push('/login'); // Adjust this route as needed
+        router.push('/auth/login'); // Adjust this route as needed
       }
     } catch (err) {
       console.error(err);
@@ -135,7 +135,7 @@ const RegisterForm = () => {
       </CardContent>
 
       <CardFooter className="flex flex-col items-center justify-center gap-2">
-        <Link href="/login" className="w-full">
+        <Link href="/auth/login" className="w-full">
           <Button variant="link" className="w-full text-center">
             Already have an account? Sign-in instead
           </Button>
