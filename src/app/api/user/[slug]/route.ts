@@ -31,11 +31,11 @@ export async function POST(req: NextRequest) {
 
     const validatedData = result.data;
 
-    const slug = generateSlug(
-      session.user.name || session.user.email || user.id
-    );
+    // const slug = generateSlug(
+    //   session.user.name || session.user.email || user.id
+    // );
 
-    console.log('SLUG --> ', slug);
+    // console.log('SLUG --> ', slug);
 
     const profile = await prisma.user.update({
       where: {
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
         bio: validatedData.bio,
         location: validatedData.location,
         image: validatedData.image,
-        slug: slug,
+        // slug: slug,
       },
     });
 
@@ -63,9 +63,25 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET({ params }: { params: { slug: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { slug: string } }
+) {
   try {
-    const { slug } = params;
+    // const slug = req.nextUrl.pathname.split('/').pop();
+
+    const { slug } = await params;
+
+    // console.log('Requested SLUG => ', slug);
+
+    if (!slug) {
+      return NextResponse.json(
+        { message: 'Slug is required' },
+        { status: 404 }
+      );
+    }
+
+
 
     const profile = await prisma.user.findUnique({
       where: {
@@ -88,7 +104,7 @@ export async function GET({ params }: { params: { slug: string } }) {
         profile,
       },
       {
-        status: 201,
+        status: 200,
       }
     );
   } catch (error: any) {
