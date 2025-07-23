@@ -4,6 +4,15 @@ import { prisma } from './lib/prisma';
 import authConfig from './auth.config';
 import { getUserById } from './data/user';
 import { getAccountByUserId } from './data/accounts';
+import { generateSlug } from './lib/GenerateSlug';
+
+// function getSlugSource(user: {
+//   name?: string | null;
+//   email?: string | null;
+//   id?: string;
+// }): string {
+//   return user.name ?? user.email ?? user.id ?? crypto.randomUUID();
+// }
 
 export const {
   handlers: { GET, POST },
@@ -14,6 +23,16 @@ export const {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   ...authConfig,
+  events: {
+    async createUser({ user }) {
+      const slug = generateSlug(user.name || user.email || user.id || crypto.randomUUID());
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { slug },
+      });
+    },
+  },
+
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== 'credentials') {
