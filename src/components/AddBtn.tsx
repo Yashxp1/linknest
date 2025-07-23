@@ -5,18 +5,19 @@ import { Pencil, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { AddLinkModal } from './Modal/AddLinkModal';
 import UpdateLinkModal from './Modal/UpdateLinkModal';
-import EditProfileModal from './Modal/EditProfileModal';
-import { userProfileStore } from '@/store/profileStore';
+// import EditProfileModal from './Modal/EditProfileModal';
+// import { userProfileStore } from '@/store/profileStore';
 
-interface profileProps {
-  profile: {
-    bio: string;
-    location: string;
-    image: string;
-  };
-}
+// interface profileProps {
+//   profile: {
+//     bio: string;
+//     location: string;
+//     image: string;
+//   };
+// }
 
-const AddBtn = ({ profile }: profileProps) => {
+const AddBtn = () => {
+  // const AddBtn = ({ profile }: profileProps) => {
   // const { isLoading, getProfile, setProfile } = userProfileStore();
 
   return (
@@ -38,7 +39,12 @@ const AddBtn = ({ profile }: profileProps) => {
                 <p className="text-sm">New Delhi, India</p>
               </div>
             </div>
-            <EditProfileModal
+
+            <div className="pt-4">
+              <Pencil size={18} />
+            </div>
+
+            {/* <EditProfileModal
               trigger={(openModal) => (
                 <div className="pt-4">
                   <Pencil onClick={openModal} size={18} />
@@ -49,7 +55,7 @@ const AddBtn = ({ profile }: profileProps) => {
                 location: profile.location,
                 image: profile.image,
               }}
-            />
+            /> */}
           </div>
           <AddLinkModal
             trigger={(openModal) => (
