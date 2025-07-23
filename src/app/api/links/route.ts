@@ -91,6 +91,7 @@ export async function GET(req: NextRequest) {
 
     const links = await prisma.link.findMany({
       where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
         title: true,
