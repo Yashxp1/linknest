@@ -1,21 +1,24 @@
 'use client';
 import React from 'react';
-import Preview from '../Preview';
 import AddBtn from '../AddBtn';
 import Card from '../Card';
-import Sidebar from '../Sidebar';
+import Preview from '../Preview';
 
 const LinkPage = () => {
   return (
-    <div className="w-full flex border-b">
-      <Sidebar />
-      <div className="flex-1  border-r pl-13">
-        <AddBtn />
-        <div>
-          <Card />
+    <div className="w-full flex h-screen overflow-hidden ">
+    
+      <div className="flex-1 border-r overflow-y-auto pl-12 hide-scrollbar">
+        <div className="px-4 py-6">
+          <AddBtn />
+          <div className="mt-4">
+            <Card />
+          </div>
         </div>
       </div>
-      <div className="w-[30%] lg:flex justify-center items-center hidden">
+
+
+      <div className="w-[30%] hidden lg:flex items-center justify-center border-l h-screen">
         <Preview />
       </div>
     </div>
