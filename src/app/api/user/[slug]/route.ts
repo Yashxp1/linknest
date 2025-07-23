@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { generateSlug } from '@/lib/GenerateSlug';
 import { prisma } from '@/lib/prisma';
 import { profileSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';
