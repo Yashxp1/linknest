@@ -3,7 +3,7 @@ import ProfileCard from './ProfileCard'
 
 const Preview = () => {
   return (
-    <div className=''><ProfileCard></ProfileCard></div>
+    <div className=''><ProfileCard/></div>
   )
 }
 

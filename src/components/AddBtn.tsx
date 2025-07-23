@@ -21,13 +21,13 @@ const AddBtn = () => {
   // const { isLoading, getProfile, setProfile } = userProfileStore();
 
   return (
-    <div className="flex justify-center items-center border-b">
-      <div className="w-[80%]">
+    <div className="flex justify-center w-full border-b items-center  pt-10">
+      <div className=" w-full">
         <div className="w-full p-4 pb-6 flex flex-col">
           <div className="flex justify-between">
             <div className="flex items-center space-x-3 py-4">
               <Image
-                src="/default1.jpg"
+                src="/defaultPic.jpg"
                 alt="Profile Picture"
                 width={64}
                 height={64}

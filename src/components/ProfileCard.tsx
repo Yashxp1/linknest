@@ -3,7 +3,6 @@ import React from 'react';
 // import { Instrument_Sans } from 'next/font/google';
 import { Mona_Sans } from 'next/font/google';
 
-
 // const InstrumentSansfont = Instrument_Sans({
 //   subsets: ['latin'],
 //   weight: '400',
@@ -16,12 +15,13 @@ const MonaSansfont = Mona_Sans({
 
 const ProfileCard = () => {
   return (
-    <div className={`${MonaSansfont.className}`}>
-      <div className="justify-center border-2 border-rounded-4xl   px-2 rounded-4xl pt-2 pb-4 bg-gradient-to-br from-pink-300 via-white to-blue-100 items-center flex flex-col  shadow-sm shadow-purple-300 dark:shadow-none transition-all duration-300  backdrop-blur-sm">
+    <div className={`${MonaSansfont.className} pt-13`}>
+      <div className="justify-center  px-2 rounded-4xl pt-2 pb-4 bg-gradient-to-br from-pink-300 via-white to-blue-100 items-center flex flex-col  shadow-sm shadow-purple-300 dark:shadow-none transition-all duration-300  backdrop-blur-sm">
         <div className="relative w-84 aspect-square overflow-hidden rounded-4xl group">
           <Image
             // src="/person1.avif"
             src="/looney.jpg"
+            // src="/goku.jpg"
             alt="Your Image"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
