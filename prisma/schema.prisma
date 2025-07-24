@@ -59,11 +59,12 @@ model VerificationToken {
 }
 
 model Link {
-  id     String @id @default(cuid())
-  title  String
-  url    String
-  order  Int
-  userId String
+  id      String  @id @default(cuid())
+  title   String
+  url     String
+  visible Boolean @default(true)
+  order   Int
+  userId  String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

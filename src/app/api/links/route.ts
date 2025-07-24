@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
     }
 
     const links = await prisma.link.findMany({
-      where: { userId: user.id },
+      where: { userId: user.id, visible: true },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
