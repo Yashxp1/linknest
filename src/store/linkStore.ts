@@ -17,7 +17,8 @@ type Link = {
   order: number;
   createdAt: Date;
   updatedAt: Date;
-  userId:string
+  userId: string;
+  visible:boolean
 };
 
 type LinkStore = {
@@ -38,6 +39,11 @@ type LinkStore = {
   deleteLink: (
     data: z.infer<typeof deleteSchema>
   ) => Promise<{ success?: string; error?: string }>;
+
+  toggleVisibilty: (
+    linkId: string,
+    visible: boolean
+  ) => Promise<{ success?: string; error?: string }>;
 };
 
 export const userLinkStore = create<LinkStore>((set, get) => ({
@@ -51,7 +57,7 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
     try {
       const res = await axios.post(`${baseURL}/links`, data);
       const response = res.data as { message?: string };
-      
+
       toast.success(response.message || 'Link added successfully');
       await get().getLink();
       return { success: response.message || 'Link added successfully' };
@@ -112,6 +118,28 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       return {
         error: error.response?.data?.message || 'Failed to delete link!',
       };
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  toggleVisibilty: async (linkId, visible) => {
+    // set({ isLoading: true });
+    try {
+      const res = await axios.put(`${baseURL}/links/visibility`, {
+        linkId,
+        visible,
+      });
+
+      await get().getLink();
+      toast.success('Toggled');
+
+      return { success: 'Toggled' };
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to toggle visibility';
+      toast.error(message);
+      return { error: message };
     } finally {
       set({ isLoading: false });
     }

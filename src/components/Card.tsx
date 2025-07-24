@@ -1,18 +1,18 @@
 'use client';
 import { Switch } from '@/components/ui/switch';
 import { Grip } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import DropDown from './DropDown';
 import { userLinkStore } from '@/store/linkStore';
 
 const Card = () => {
-  const { isLoading } = userLinkStore();
+  const { isLoading, toggleVisibilty } = userLinkStore();
   const links = userLinkStore((state) => state.links);
   const getLink = userLinkStore((state) => state.getLink);
 
   useEffect(() => {
     getLink();
-  }, []);
+  }, [getLink]);
 
   return (
     <div className="m-4 space-y-3">
@@ -34,7 +34,6 @@ const Card = () => {
           className="border rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow"
         >
           <div className="flex items-center justify-between">
-            {/* Left side - Grip and Link Info */}
             <div className="flex items-center flex-1 min-w-0">
               <div className="cursor-grab mr-3">
                 <Grip size={16} className="text-gray-400" />
@@ -51,10 +50,13 @@ const Card = () => {
               </div>
             </div>
 
-            {/* Right side - Controls */}
             <div className="flex flex-col items-center gap-4 ml-4">
               <Switch />
-              {/* <DropDown linkId={link.id} userId={link.userId} /> */}
+              {/* <Switch
+                checked={link.visible}
+                onCheckedChange={(checked) => toggleVisibilty(link.id, checked)}
+              /> */}
+
               <DropDown
                 link={{
                   linkId: link.id,
