@@ -25,7 +25,9 @@ export const {
   ...authConfig,
   events: {
     async createUser({ user }) {
-      const slug = generateSlug(user.name || user.email || user.id || crypto.randomUUID());
+      const slug = generateSlug(
+        user.name || user.email || user.id || crypto.randomUUID()
+      );
       await prisma.user.update({
         where: { id: user.id },
         data: { slug },
@@ -65,11 +67,17 @@ export const {
       // console.log('Session token: ', token);
       // console.log('Session object: ', session);
 
+      if (!token?.sub) return session;
+
+      const existingUser = await getUserById(token.sub);
+      if (!existingUser) return session;
+
       return {
         ...session,
         user: {
           ...session.user,
           id: token.sub,
+          slug: existingUser.slug,
           isOauth: token.isOauth,
         },
       };
