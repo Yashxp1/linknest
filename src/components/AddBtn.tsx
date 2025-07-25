@@ -1,24 +1,25 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from './ui/button';
 import { Pencil, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { AddLinkModal } from './Modal/AddLinkModal';
-import UpdateLinkModal from './Modal/UpdateLinkModal';
-// import EditProfileModal from './Modal/EditProfileModal';
-// import { userProfileStore } from '@/store/profileStore';
+import EditProfileModal from './Modal/EditProfileModal';
+import { userProfileStore } from '@/store/profileStore';
+import { auth } from '@/auth';
+import { useSession } from 'next-auth/react';
 
-// interface profileProps {
-//   profile: {
-//     bio: string;
-//     location: string;
-//     image: string;
-//   };
-// }
 
 const AddBtn = () => {
-  // const AddBtn = ({ profile }: profileProps) => {
-  // const { isLoading, getProfile, setProfile } = userProfileStore();
+  const { data: session } = useSession();
+  const profile = userProfileStore((state) => state.profile);
+  const getProfile = userProfileStore((state) => state.getProfile);
+
+  useEffect(() => {
+    if (session?.user?.slug && !profile) {
+      getProfile(session.user.slug);
+    }
+  }, [session?.user?.slug]);
 
   return (
     <div className="flex justify-center w-full border-b items-center  pt-10">
@@ -35,38 +36,47 @@ const AddBtn = () => {
               />
               <div className="flex flex-col gap-0.5 leading-tight">
                 <span className="font-semibold">Yashxp1</span>
-                <p className="text-md">Full-Stack Developer</p>
-                <p className="text-sm">New Delhi, India</p>
+                <p className="text-md">
+                  {/* Full-Stack Developer */}
+                  {profile?.bio}
+                </p>
+
+                <p className="text-sm">
+                  {/* New Delhi, India */}
+                  {profile?.location}
+                </p>
               </div>
             </div>
-
-            <div className="pt-4">
-              <Pencil size={18} />
+          </div>
+          <div className="flex gap-2 w-full justify-center items-center">
+            <div className="w-full">
+              <AddLinkModal
+                trigger={(openModal) => (
+                  <div className="">
+                    <Button onClick={openModal} className=" w-full">
+                      <Plus className="" />
+                      Add
+                    </Button>
+                  </div>
+                )}
+              />
             </div>
-
-            {/* <EditProfileModal
+            <EditProfileModal
               trigger={(openModal) => (
-                <div className="pt-4">
-                  <Pencil onClick={openModal} size={18} />
+                <div className="">
+                  <Button onClick={openModal} variant="outline">
+                    Edit Profile
+                  </Button>
+                  {/* <Pencil size={18} /> */}
                 </div>
               )}
               profile={{
-                bio: profile.bio,
-                location: profile.location,
-                image: profile.image,
+                bio: profile?.bio ?? '',
+                location: profile?.location ?? '',
+                image: profile?.image ?? '',
               }}
-            /> */}
+            />
           </div>
-          <AddLinkModal
-            trigger={(openModal) => (
-              <div className="flex justify-center items-center">
-                <Button onClick={openModal} className="mt-2 w-full ">
-                  <Plus className="mr-2" />
-                  Add
-                </Button>
-              </div>
-            )}
-          />
         </div>
       </div>
     </div>
