@@ -1,12 +1,8 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { Instrument_Sans } from 'next/font/google';
 import { Mona_Sans } from 'next/font/google';
-
-// const InstrumentSansfont = Instrument_Sans({
-//   subsets: ['latin'],
-//   weight: '400',
-// });
+import { userProfileStore } from '@/store/profileStore';
 
 const MonaSansfont = Mona_Sans({
   subsets: ['latin'],
@@ -14,6 +10,13 @@ const MonaSansfont = Mona_Sans({
 });
 
 const ProfileCard = () => {
+  // const { isLoading } = userProfileStore();
+ 
+
+  // useEffect(() => {
+  //   getProfile()
+  // },[])
+
   return (
     <div className={`${MonaSansfont.className} pt-13`}>
       <div className="justify-center  px-2 rounded-4xl pt-2 pb-4 bg-gradient-to-br from-pink-300 via-white to-blue-100 items-center flex flex-col  shadow-sm shadow-purple-300 dark:shadow-none transition-all duration-300  backdrop-blur-sm">
@@ -36,9 +39,13 @@ const ProfileCard = () => {
             </h2>
             <p className="text-gray-600 text-sm hover:text-gray-800 transition-colors duration-200">
               New Delhi, India
+              {/* {profile.location} */}
             </p>
+
             <p className="text-gray-600 text-sm hover:text-gray-800 transition-colors duration-200">
               Full-Stack Developer.
+
+              {/* {profile.bio} */}
             </p>
           </div>
           <div className="flex justify-center items-center pt-2 text-black font-semibold text-sm">
