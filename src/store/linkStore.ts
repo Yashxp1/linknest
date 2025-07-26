@@ -21,16 +21,31 @@ type Link = {
   visible:boolean
 };
 
+type VisibleLink = {
+  id: string;
+  title: string;
+  url: string;
+  order: number;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  visible:boolean
+};
+
 type LinkStore = {
   isLoading: boolean;
   links: Link[];
+  visibleLinks: VisibleLink[];
   setLinks: (links: Link[]) => void;
+
 
   setLink: (
     data: z.infer<typeof linkSchema>
   ) => Promise<{ success?: string; error?: string }>;
 
   getLink: () => Promise<{ success?: string; error?: string }>;
+
+  getVisibleLink: () => Promise<{ success?: string; error?: string }>;
 
   updateLink: (
     data: z.infer<typeof linkUpdateSchema>
@@ -49,6 +64,9 @@ type LinkStore = {
 export const userLinkStore = create<LinkStore>((set, get) => ({
   isLoading: false,
   links: [],
+  visibleLinks: [],
+  
+  // visible:true,
 
   setLinks: (links) => set({ links }),
 
@@ -75,6 +93,24 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       const res = await axios.get(`${baseURL}/links`);
       const response = res.data as { success: boolean; res: Link[] };
       set({ links: response.res });
+      await get().getVisibleLink();
+      console.log('LINKS --->', response.res);
+      // console.log(res.data);
+      return { success: 'Links fetched successfully' };
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to get link!');
+      return { error: error.response?.data?.message || 'Failed to get link!' };
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  getVisibleLink: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axios.get(`${baseURL}/links/visibility`);
+      const response = res.data as { success: boolean; res: Link[] };
+      set({ visibleLinks: response.res });
 
       console.log('LINKS --->', response.res);
       // console.log(res.data);
