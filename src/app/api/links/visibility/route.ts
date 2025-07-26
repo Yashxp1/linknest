@@ -36,38 +36,38 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// export async function GET() {
-//   try {
-//     const session = await auth();
+export async function GET() {
+  try {
+    const session = await auth();
 
-//     if (!session || !session.user?.email) {
-//       return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
-//     }
+    if (!session || !session.user?.email) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
+    }
 
 
-//     const visibleLinks = await prisma.link.findMany({
-//       where: {
-//         userId: session?.user.id,
-//         visible: true,
-//       },
-//       orderBy: { createdAt: 'desc' },
-//       select: {
-//         id: true,
-//         title: true,
-//         url: true,
-//         order: true,
-//         createdAt: true,
-//         updatedAt: true,
-//         userId: true,
-//       },
-//     });
+    const visibleLinks = await prisma.link.findMany({
+      where: {
+        userId: session?.user.id,
+        visible: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        title: true,
+        url: true,
+        order: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+      },
+    });
 
-//     if (!visibleLinks) {
-//       return NextResponse.json({ message: 'Links not found' }, { status: 404 });
-//     }
-//     return NextResponse.json({ success: true,res: visibleLinks }, { status: 201 });
-//   } catch (error) {
-//     console.error('Error fetching visible links');
-//     return NextResponse.json({ success: false }, { status: 500 });
-//   }
-// }
+    if (!visibleLinks) {
+      return NextResponse.json({ message: 'Links not found' }, { status: 404 });
+    }
+    return NextResponse.json({ success: true,res: visibleLinks }, { status: 201 });
+  } catch (error) {
+    console.error('Error fetching visible links');
+    return NextResponse.json({ success: false }, { status: 500 });
+  }
+}
