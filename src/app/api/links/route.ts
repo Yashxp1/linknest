@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
     }
 
     const links = await prisma.link.findMany({
-      where: { userId: user.id, visible: true },
+      where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
@@ -102,6 +102,19 @@ export async function GET(req: NextRequest) {
         userId: true,
       },
     });
+    // const links = await prisma.link.findMany({
+    //   where: { userId: user.id, visible: true },
+    //   orderBy: { createdAt: 'desc' },
+    //   select: {
+    //     id: true,
+    //     title: true,
+    //     url: true,
+    //     order: true,
+    //     createdAt: true,
+    //     updatedAt: true,
+    //     userId: true,
+    //   },
+    // });
 
     if (!links) {
       return NextResponse.json({ message: 'Links not found' }, { status: 404 });

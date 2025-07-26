@@ -81,14 +81,16 @@ export async function GET(
       );
     }
 
-
-
     const profile = await prisma.user.findUnique({
       where: {
         slug,
       },
       include: {
-        links: true,
+        links: {
+          where: {
+            visible: true,
+          },
+        },
       },
     });
 
