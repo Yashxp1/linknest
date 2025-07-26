@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -135,11 +135,11 @@ const RegisterForm = () => {
       </CardContent>
 
       <CardFooter className="flex flex-col items-center justify-center gap-2">
-        <Link href="/auth/login" className="w-full">
+        <NextLink href="/auth/login" className="w-full">
           <Button variant="link" className="w-full text-center">
             Already have an account? Sign-in instead
           </Button>
-        </Link>
+        </NextLink>
       </CardFooter>
     </Card>
   );

@@ -1,6 +1,6 @@
 import { Sparkles } from 'lucide-react';
 import { Manrope } from 'next/font/google';
-import Link from 'next/link';
+import NextLink from 'next/link';
 
 const manropefont = Manrope({
   subsets: ['latin'],
@@ -12,7 +12,7 @@ const Logo = () => {
     <div
       className={`${manropefont.className} text-xl flex justify-center items-center gap-2`}
     >
-      <Link href="/">
+      <NextLink href="/">
         <div className="flex justify-center items-center gap-2">
           <div>
             <Sparkles />
@@ -21,7 +21,7 @@ const Logo = () => {
             <p className="font-bold">LinkNest</p>
           </div>
         </div>
-      </Link>
+      </NextLink>
     </div>
   );
 };
