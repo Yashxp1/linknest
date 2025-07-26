@@ -4,6 +4,7 @@ import { Grip } from 'lucide-react';
 import React, { useEffect } from 'react';
 import DropDown from './DropDown';
 import { userLinkStore } from '@/store/linkStore';
+import { SkeletonCard } from './SkeletonCard';
 
 const Card = () => {
   const { isLoading, toggleVisibilty } = userLinkStore();
@@ -16,17 +17,13 @@ const Card = () => {
 
   return (
     <div className="m-4 space-y-3">
-      {isLoading && (
-        <div className="border rounded-2xl p-4">
-          <p className="text-gray-500">Loading links...</p>
-        </div>
-      )}
+      {/* {isLoading && <SkeletonCard />} */}
 
-      {links.length === 0 && !isLoading && (
+      {/* {links.length === 0 && !isLoading && (
         <div className="border rounded-2xl p-4">
           <p className="text-gray-500">No links found.</p>
         </div>
-      )}
+      )} */}
 
       {links.map((link) => (
         <div
