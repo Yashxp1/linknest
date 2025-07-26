@@ -4,64 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { profileSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';
 
-// export async function POST(req: NextRequest) {
-//   try {
-//     const session = await auth();
 
-//     if (!session || !session.user || !session.user.email) {
-//       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-//     }
-
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         email: session.user.email,
-//       },
-//     });
-
-//     if (!user?.id) {
-//       return NextResponse.json({ message: 'Unathorized' }, { status: 401 });
-//     }
-
-//     const body = await req.json();
-//     const result = profileSchema.safeParse(body);
-
-//     if (!result.success) {
-//       return NextResponse.json({ message: 'Invalid Input' }, { status: 401 });
-//     }
-
-//     const validatedData = result.data;
-
-//     // const slug = generateSlug(
-//     //   session.user.name || session.user.email || user.id
-//     // );
-
-//     // console.log('SLUG --> ', slug);
-
-//     const profile = await prisma.user.update({
-//       where: {
-//         id: user.id,
-//       },
-//       data: {
-//         bio: validatedData.bio,
-//         location: validatedData.location,
-//         image: validatedData.image,
-//         // slug: slug,
-//       },
-//     });
-
-//     if (!profile) {
-//       return NextResponse.json(
-//         { message: 'Profile not found' },
-//         { status: 404 }
-//       );
-//     }
-
-//     return NextResponse.json({ success: true, profile }, { status: 200 });
-//   } catch (error) {
-//     console.log('profile error');
-//     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
-//   }
-// }
 
 export async function GET(
   req: NextRequest,
@@ -112,5 +55,41 @@ export async function GET(
   } catch (error: any) {
     console.error('Slug error');
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const session = await auth();
+
+    if (!session || !session.user?.email) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
+    }
+
+
+    const visibleLinks = await prisma.link.findMany({
+      where: {
+        userId: session?.user.id,
+        visible: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        title: true,
+        url: true,
+        order: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+      },
+    });
+
+    if (!visibleLinks) {
+      return NextResponse.json({ message: 'Links not found' }, { status: 404 });
+    }
+    return NextResponse.json({ success: true,res: visibleLinks }, { status: 201 });
+  } catch (error) {
+    console.error('Error fetching visible links');
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 }
