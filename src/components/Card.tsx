@@ -51,11 +51,11 @@ const Card = () => {
             </div>
 
             <div className="flex flex-col items-center gap-4 ml-4">
-              <Switch />
-              {/* <Switch
+              {/* <Switch /> */}
+              <Switch
                 checked={link.visible}
                 onCheckedChange={(checked) => toggleVisibilty(link.id, checked)}
-              /> */}
+              />
 
               <DropDown
                 link={{
