@@ -1,0 +1,15 @@
+import ProfileCard from '@/components/ProfileCard';
+import { SessionProvider } from 'next-auth/react';
+import React from 'react';
+
+const page = () => {
+  return (
+    <SessionProvider>
+      <div>
+        <ProfileCard />
+      </div>
+    </SessionProvider>
+  );
+};
+
+export default page;
