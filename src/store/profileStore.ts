@@ -3,6 +3,8 @@ import { toast } from 'sonner';
 import z from 'zod';
 import axios from 'axios';
 import { create } from 'zustand';
+import { Link } from './linkStore';
+
 
 const baseURL = 'http://localhost:3000/api';
 
@@ -14,7 +16,7 @@ type Profile = {
   image?: string;
   createdAt: Date;
   updatedAt: Date;
-  // links: Link[];
+  links: Link[];
 };
 
 type GetProfileResponse = {

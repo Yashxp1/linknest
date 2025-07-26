@@ -10,7 +10,7 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:3000/api';
 
-type Link = {
+export type Link = {
   id: string;
   title: string;
   url: string;
