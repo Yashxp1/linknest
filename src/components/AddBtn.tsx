@@ -1,12 +1,11 @@
 'use client';
 import React, { useEffect } from 'react';
 import { Button } from './ui/button';
-import { Pencil, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import { AddLinkModal } from './Modal/AddLinkModal';
 import EditProfileModal from './Modal/EditProfileModal';
 import { userProfileStore } from '@/store/profileStore';
-import { auth } from '@/auth';
 import { useSession } from 'next-auth/react';
 
 

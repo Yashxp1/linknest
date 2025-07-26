@@ -1,6 +1,4 @@
-import LinkPage from '@/components/LinkPage/Dashboard';
-import Navbar from '@/components/Navbar';
-import { SessionProvider } from 'next-auth/react';
+import LinkPage from '@/components/LinkPage/Dashboard';import { SessionProvider } from 'next-auth/react';
 import React from 'react';
 
 const page = () => {
