@@ -4,8 +4,6 @@ import { prisma } from '@/lib/prisma';
 import { profileSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';
 
-
-
 export async function GET(
   req: NextRequest,
   { params }: { params: { slug: string } }
@@ -33,6 +31,7 @@ export async function GET(
           where: {
             visible: true,
           },
+          orderBy: { order: 'asc' },
         },
       },
     });
@@ -65,7 +64,6 @@ export async function GET(
 //     if (!session || !session.user?.email) {
 //       return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
 //     }
-
 
 //     const visibleLinks = await prisma.link.findMany({
 //       where: {
