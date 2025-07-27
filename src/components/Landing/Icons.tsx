@@ -48,9 +48,7 @@ const Icons = () => {
             key={idx}
             className="group relative overflow-hidden rounded-xl border p-4 transition-all duration-300 
                        border-gray-200 bg-white/80 backdrop-blur-sm hover:bg-white hover:border-gray-300 
-                       dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:hover:border-white/20"
-          >
-            {/* Gradient glow effect on hover */}
+                       dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:hover:border-white/20">
             <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-20">
               <div
                 className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-600/20 blur-xl 
