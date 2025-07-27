@@ -6,6 +6,7 @@ import Sidebar from './Sidebar';
 import Logo from './Logo';
 import { DarkModeToggle } from './DarkModeToggle';
 import { Button } from './ui/button';
+import { CopyLink } from './CopyLink';
 
 const Navbar = () => {
   return (
@@ -16,10 +17,7 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        <Button variant="outline" className="px-6">
-          {' '}
-          Share
-        </Button>
+       <CopyLink/>
       </div>
     </div>
   );
