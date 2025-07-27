@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { create } from 'zustand';
 import { z } from 'zod';
 import axios from 'axios';
+import { userProfileStore } from './profileStore';
 
 const baseURL = 'http://localhost:3000/api';
 
@@ -18,7 +19,7 @@ export type Link = {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
-  visible:boolean
+  visible: boolean;
 };
 
 type VisibleLink = {
@@ -29,7 +30,7 @@ type VisibleLink = {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
-  visible:boolean
+  visible: boolean;
 };
 
 type LinkStore = {
@@ -37,7 +38,6 @@ type LinkStore = {
   links: Link[];
   visibleLinks: VisibleLink[];
   setLinks: (links: Link[]) => void;
-
 
   setLink: (
     data: z.infer<typeof linkSchema>
@@ -59,13 +59,14 @@ type LinkStore = {
     linkId: string,
     visible: boolean
   ) => Promise<{ success?: string; error?: string }>;
+  updateLinkOrder: (orderedIds: string[]) => Promise<void>;
 };
 
 export const userLinkStore = create<LinkStore>((set, get) => ({
   isLoading: false,
   links: [],
   visibleLinks: [],
-  
+
   // visible:true,
 
   setLinks: (links) => set({ links }),
@@ -94,8 +95,7 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       const response = res.data as { success: boolean; res: Link[] };
       set({ links: response.res });
       await get().getVisibleLink();
-      console.log('LINKS --->', response.res);
-      // console.log(res.data);
+
       return { success: 'Links fetched successfully' };
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to get link!');
@@ -112,8 +112,6 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       const response = res.data as { success: boolean; res: Link[] };
       set({ visibleLinks: response.res });
 
-      console.log('LINKS --->', response.res);
-      // console.log(res.data);
       return { success: 'Links fetched successfully' };
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to get link!');
@@ -167,9 +165,13 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
         visible,
       });
 
-      await get().getLink();
-      toast.success('Toggled');
+      const slug = userProfileStore.getState().profile?.slug;
+      if (slug) {
+        await userProfileStore.getState().getProfile(slug);
+      }
 
+      await get().getLink();
+      toast.success(`Enabled`);
       return { success: 'Toggled' };
     } catch (error: any) {
       const message =
@@ -180,4 +182,21 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       set({ isLoading: false });
     }
   },
+
+  updateLinkOrder: async (orderedIds: string[]) => {
+    try {
+      const res = await axios.put(`${baseURL}/links/reorder`, {
+        orderedLinkIds: orderedIds,
+      });
+  
+      console.log("✅ Reorder response:", res.data);
+  
+      // Force sync with updated order
+      await get().getLink();
+    } catch (error) {
+      console.error('🔥 Reorder API error:', error);
+      toast.error("Failed to reorder links");
+    }
+  }
+  
 }));

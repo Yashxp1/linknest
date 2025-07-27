@@ -5,7 +5,6 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { Link } from './linkStore';
 
-
 const baseURL = 'http://localhost:3000/api';
 
 type Profile = {
@@ -53,8 +52,7 @@ export const userProfileStore = create<ProfileStore>((set) => ({
       );
 
       set({ profile: res.data.profile });
-      toast.success('Profile fetched successfully');
-      console.log(res.data);
+      // toast.success('Profile fetched successfully');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to get Profile!');
     } finally {
@@ -65,7 +63,10 @@ export const userProfileStore = create<ProfileStore>((set) => ({
   setProfile: async (data) => {
     set({ isLoading: true });
     try {
-      const res = await axios.post<SetProfileResponse>(`${baseURL}/profile`, data);
+      const res = await axios.post<SetProfileResponse>(
+        `${baseURL}/profile`,
+        data
+      );
 
       set({ profile: res.data.profile });
 
