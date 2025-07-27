@@ -23,7 +23,7 @@ const ProfileCard = () => {
     if (slug && !profile) {
       getProfile(slug);
     }
-  }, [slug, profile]);
+  }, [slug, profile, getProfile]);
 
   return (
     <div
