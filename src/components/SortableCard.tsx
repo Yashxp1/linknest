@@ -6,13 +6,13 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent
+  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
   useSortable,
-  verticalListSortingStrategy
+  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Grip } from 'lucide-react';
@@ -28,13 +28,13 @@ const SortableItem = ({ link }: { link: any }) => {
     setNodeRef,
     transform,
     transition,
-    isDragging
+    isDragging,
   } = useSortable({ id: link.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1
+    opacity: isDragging ? 0.5 : 1,
   };
 
   const { toggleVisibilty } = userLinkStore();
@@ -49,16 +49,16 @@ const SortableItem = ({ link }: { link: any }) => {
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center flex-1 min-w-0">
-        <div
-        className="cursor-grab mr-3"
-        {...attributes}
-        {...listeners}
-      >
+          <div className="cursor-grab mr-3" {...attributes} {...listeners}>
             <Grip size={16} className="text-gray-400" />
           </div>
           <div className="flex-col min-w-0 inline-block flex-1">
             <p className="font-semibold truncate">{link.title}</p>
-            <a href={link.url} target="_blank" className="text-sm cursor-pointer truncate">
+            <a
+              href={link.url}
+              target="_blank"
+              className="text-sm cursor-pointer truncate"
+            >
               {link.url}
             </a>
           </div>
@@ -77,7 +77,13 @@ const SortableItem = ({ link }: { link: any }) => {
 };
 
 export default function SortableCard() {
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px drag before sensor activates
+      },
+    })
+  );
   const { getLink, links, updateLinkOrder } = userLinkStore();
 
   useEffect(() => {
@@ -103,7 +109,11 @@ export default function SortableCard() {
 
   return (
     <div className="m-4 space-y-3">
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((id) => {
             const link = links.find((l) => l.id === id);
