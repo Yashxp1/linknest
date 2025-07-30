@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { userLinkStore } from '@/store/linkStore';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import NextLink from 'next/link';
+import Link from 'next/link';
 
 const MonaSansfont = Mona_Sans({
   subsets: ['latin'],
@@ -19,7 +19,7 @@ const ProfileCard = () => {
   const { data: session } = useSession();
 
   const params = useParams();
-  const slug = 'yash-raj-V0SKS5qMDmLoWD4GrCPSA'; 
+  const slug = 'yash-raj-V0SKS5qMDmLoWD4GrCPSA';
 
   const profile = userProfileStore((state) => state.profile);
   const getProfile = userProfileStore((state) => state.getProfile);
@@ -46,7 +46,6 @@ const ProfileCard = () => {
       className={`flex items-center justify-center h-screen ${MonaSansfont.className}`}
     >
       <div className="flex flex-col items-center justify-center px-2 pt-2 pb-6 rounded-4xl bg-gradient-to-br from-pink-300 via-white to-blue-100 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 shadow-sm shadow-purple-300 dark:shadow-none transition-all duration-300 backdrop-blur-sm">
-        
         <div className="relative w-[21rem] aspect-square overflow-hidden rounded-4xl group">
           <Image
             src={profile?.image || '/goku.jpg'}
@@ -57,7 +56,6 @@ const ProfileCard = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
 
-     
         <div className="w-[21rem] mt-3">
           <div className="pl-5">
             <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text hover:from-blue-600 hover:to-purple-600 dark:from-white dark:to-gray-300 transition-all duration-300">
@@ -74,7 +72,9 @@ const ProfileCard = () => {
           {/* No Links */}
           {visibleLinks.length === 0 && !isLoading && (
             <div className="border border-dashed border-gray-300 dark:border-gray-700 rounded-2xl p-4 mt-4 text-center">
-              <p className="text-gray-500 dark:text-gray-400">No links found.</p>
+              <p className="text-gray-500 dark:text-gray-400">
+                No links found.
+              </p>
             </div>
           )}
 
@@ -84,14 +84,17 @@ const ProfileCard = () => {
               className="flex justify-center items-center pt-2 text-sm"
             >
               <div className="flex flex-col gap-2 w-[90%] justify-center text-center items-center">
-                <NextLink href={link.url} target="_blank" passHref legacyBehavior>
+                
                   <Button
+                    asChild
                     variant="outline"
                     className="w-full font-semibold text-black dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                   >
-                    {link.title}
+                    <Link href={link.url} target="_blank">
+                      {link.title}
+                    </Link>
                   </Button>
-                </NextLink>
+               
               </div>
             </div>
           ))}
