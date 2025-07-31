@@ -1,21 +1,12 @@
-import { auth } from '@/auth';
-import { generateSlug } from '@/lib/GenerateSlug';
 import { prisma } from '@/lib/prisma';
-import { profileSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';
-
-
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
-    // const slug = req.nextUrl.pathname.split('/').pop();
-
     const { slug } = await params;
-
-    // console.log('Requested SLUG => ', slug);
 
     if (!slug) {
       return NextResponse.json(
@@ -65,7 +56,6 @@ export async function GET(
 //     if (!session || !session.user?.email) {
 //       return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
 //     }
-
 
 //     const visibleLinks = await prisma.link.findMany({
 //       where: {

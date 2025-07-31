@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 export function CopyLink() {
   const profile = userProfileStore((state) => state.profile);
   const slug = profile?.slug;
-  const url = slug ? `${window.location.origin}/${slug}` : '';
+  const url = slug ? `${window.location.origin}/user/${slug}` : '';
 
   const [copied, setCopied] = useState(false);
 

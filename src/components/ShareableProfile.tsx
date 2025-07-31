@@ -15,31 +15,18 @@ const MonaSansfont = Mona_Sans({
   weight: '400',
 });
 
-const ProfileCard = () => {
-  const { data: session } = useSession();
-
-
-  const profile = userProfileStore((state) => state.profile);
-  const getProfile = userProfileStore((state) => state.getProfile);
-  const slug = profile?.slug;
-
+const ShareableProfile = () => {
+  const shared = userLinkStore((s) => s.shareableData);
+  const shareLink = userLinkStore((s) => s.shareLink); // ✅ get the function
   const { isLoading } = userLinkStore();
-  const visibleLinks = userLinkStore((state) => state.visibleLinks);
-  const getVisibleLink = userLinkStore((state) => state.getVisibleLink);
+  const { slug } = useParams() as { slug: string };
+  
 
   useEffect(() => {
-    if (slug && !profile) {
-      getProfile(slug);
-      getVisibleLink();
+    if (slug) {
+      shareLink(slug); // ✅ this is what fetches the data
     }
-  }, [slug, profile]);
-
-  useEffect(() => {
-    if (session?.user?.slug && !profile) {
-      getProfile(session.user.slug);
-      getVisibleLink();
-    }
-  }, [session?.user?.slug, profile]);
+  }, [slug]);
 
   return (
     <div
@@ -48,7 +35,8 @@ const ProfileCard = () => {
       <div className="flex flex-col items-center justify-center px-2 pt-2 pb-6 rounded-4xl bg-gradient-to-br from-pink-300 via-white to-blue-100 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 shadow-sm shadow-purple-300 dark:shadow-none transition-all duration-300 backdrop-blur-sm">
         <div className="relative w-[21rem] aspect-square overflow-hidden rounded-4xl group">
           <Image
-            src={profile?.image || '/goku.jpg'}
+            // src={profile?.image || '/goku.jpg'}
+            src={shared?.image || '/goku.jpg'}
             alt="User Image"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -62,14 +50,14 @@ const ProfileCard = () => {
               Yashxp1
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-sm hover:text-gray-800 dark:hover:text-white transition-colors duration-200">
-              {profile?.location || 'Location not set'}
+              {shared?.location || 'Location not set'}
             </p>
             <p className="text-gray-600 dark:text-gray-400 text-sm hover:text-gray-800 dark:hover:text-white transition-colors duration-200">
-              {profile?.bio || 'No bio available'}
+              {shared?.bio || 'No bio available'}
             </p>
           </div>
 
-          {visibleLinks.length === 0 && !isLoading && (
+          {shared?.links.length === 0 && !isLoading && (
             <div className="border border-dashed border-gray-300 dark:border-gray-700 rounded-2xl p-4 mt-4 text-center">
               <p className="text-gray-500 dark:text-gray-400">
                 No links found.
@@ -77,7 +65,7 @@ const ProfileCard = () => {
             </div>
           )}
 
-          {visibleLinks.map((link) => (
+          {shared?.links.map((link) => (
             <div
               key={link.id}
               className="flex justify-center items-center pt-2 text-sm"
@@ -101,4 +89,4 @@ const ProfileCard = () => {
   );
 };
 
-export default ProfileCard;
+export default ShareableProfile;

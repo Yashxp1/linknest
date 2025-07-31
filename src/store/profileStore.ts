@@ -8,7 +8,7 @@ import { Link } from './linkStore';
 
 const baseURL = 'http://localhost:3000/api';
 
-type Profile = {
+export type Profile = {
   id: string;
   bio: string;
   location?: string;
