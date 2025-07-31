@@ -7,8 +7,6 @@ import { privateRoutes } from './routes';
 const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {
-  // console.log('Middleware called', req.nextUrl.pathname);
-  // console.log(req.auth);
 
   const isLoggedIn = !!req.auth;
   const { nextUrl } = req;
@@ -16,7 +14,7 @@ export default auth(async (req) => {
   const url = 'http://localhost:3000';
 
   const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = nextUrl.pathname.includes('/auth');
+  const isAuthRoute = nextUrl.pathname.includes('/auth') || nextUrl.pathname === '/';;
   const isApiRoute = nextUrl.pathname.includes('/api');
 
   if (isApiRoute) return;
