@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { toast } from 'sonner';
 
-const baseURL = 'http://localhost:3000/api';
+const baseURL = '/api';
 
 type regiterData = {
   name: string;

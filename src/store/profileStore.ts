@@ -6,7 +6,7 @@ import { create } from 'zustand';
 import { Link } from './linkStore';
 
 
-const baseURL = 'http://localhost:3000/api';
+const baseURL = '/api';
 
 export type Profile = {
   id: string;
