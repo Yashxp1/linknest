@@ -8,7 +8,7 @@ const LinkPage = () => {
   return (
     <div className="w-full flex h-screen overflow-hidden ">
     
-      <div className="flex-1 border-r overflow-y-auto pl-12 hide-scrollbar">
+      <div className="flex-1 border-r overflow-y-auto lg:pl-12 hide-scrollbar">
         <div className=" py-6">
           <AddBtn />
           <div className="mt-4">

@@ -6,9 +6,17 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Button } from '../ui/button';
-
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog';
 
 type UpdateLinkFormatData = z.infer<typeof linkUpdateSchema>;
 
@@ -20,6 +28,7 @@ interface UpdateLinkModalProps {
     url: string;
   };
 }
+
 const UpdateLinkModal = ({ trigger, link }: UpdateLinkModalProps) => {
   const {
     register,
@@ -35,93 +44,73 @@ const UpdateLinkModal = ({ trigger, link }: UpdateLinkModalProps) => {
     },
   });
 
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { updateLoading, updateLink, getLink } = userLinkStore();
 
-  const closeModal = () => setIsOpen(false);
   const openModal = () => {
     reset({
       linkId: link.linkId,
       title: link.title,
       url: link.url,
     });
-    setSuccess('');
     setError('');
-    setIsOpen(true);
+    setSuccess('');
+    setOpen(true);
   };
 
-  const { isLoading, updateLink, getLink } = userLinkStore();
-
   const onSubmit = async (data: UpdateLinkFormatData) => {
-    // isLoading: true;
-    await updateLink(data).then((res) => {
-      if (res.error) {
-        setError(res.error);
-        toast.error('Error adding link');
-        // isLoading: false;
-      }
-      if (res.success) {
-        setError('');
-        console.log(res);
-        getLink()
-        toast.success('Link added!');
-        setSuccess(res.success);
-        closeModal();
-        // isLoading: false;
-      }
-    });
+    const res = await updateLink(data);
+    if (res.error) {
+      setError(res.error);
+      toast.error('Error updating link');
+    } else if (res.success) {
+      setError('');
+      toast.success('Link updated!');
+      setSuccess(res.success);
+      getLink();
+      setOpen(false);
+    }
   };
 
   return (
-    <div>
-      {trigger(openModal)}
-      {isOpen && (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="fixed inset-0 bg-black/50  backdrop-blur-xs z-40 animate-in fade-in duration-300"
-        >
-          <div className="flex justify-center items-center h-screen">
-            <div className="flex flex-col justify-center items-center dark:bg-[#191919] border rounded-sm p-5 bg-white w-[30%]">
-              <div className="w-full flex flex-col gap-4">
-                {/* <h1 className='text-4xl'>Add Link</h1> */}
-                <div className=" flex flex-col gap-3">
-                  <Label htmlFor="title">Title</Label>
-                  <Input id="title" {...register('title')} />
-                  {errors.title && (
-                    <p className="text-sm text-red-500">
-                      {errors.title.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="url">URL</Label>
-                  <Input id="url" {...register('url')} />
-                  {errors.url && (
-                    <p className="text-sm text-red-500">{errors.url.message}</p>
-                  )}
-                </div>
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              {success && <p className="text-sm text-green-500">{success}</p>}
-              <div className="flex gap-4 pt-4 justify-center items-center">
-                <Button
-                  onClick={closeModal}
-                  variant="outline"
-                  className="w-full "
-                >
-                  Close
-                </Button>
-                <Button type="submit" className="w-full">
-                {isLoading ? 'Updating...' : 'Update'}
-                </Button>
-              </div>
-            </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger(openModal)}</DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Update Link</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" {...register('title')} />
+            {errors.title && (
+              <p className="text-sm text-red-500 mt-1">{errors.title.message}</p>
+            )}
           </div>
+          <div>
+            <Label htmlFor="url">URL</Label>
+            <Input id="url" {...register('url')} />
+            {errors.url && (
+              <p className="text-sm text-red-500 mt-1">{errors.url.message}</p>
+            )}
+          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          {success && <p className="text-sm text-green-500">{success}</p>}
+          <DialogFooter className="pt-2">
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button type="submit">
+              {updateLoading ? 'Updating...' : 'Update'}
+            </Button>
+          </DialogFooter>
         </form>
-      )}
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

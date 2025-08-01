@@ -1,13 +1,24 @@
 'use client';
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Button } from '../ui/button';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { userLinkStore } from '@/store/linkStore';
 import { linkSchema } from '@/schemas/linkSchema';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
 type LinkFormData = z.infer<typeof linkSchema>;
@@ -20,8 +31,8 @@ export const AddLinkModal = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = useForm<LinkFormData>({
     resolver: zodResolver(linkSchema),
     defaultValues: {
@@ -30,88 +41,72 @@ export const AddLinkModal = ({
     },
   });
 
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const closeModal = () => setIsOpen(false);
-  const openModal = () => {
-    reset();
-    setSuccess('');
-    setError('');
-    setIsOpen(true);
-  };
-
-  const { isLoading, setLink } = userLinkStore();
+  const { addLoading, setLink } = userLinkStore();
 
   const onSubmit = async (data: LinkFormData) => {
-    // isLoading: true;
-    await setLink(data).then((res) => {
-      if (res.error) {
-        setError(res.error);
-        toast.error('Error adding link');
-        // isLoading: false;
-      }
-      if (res.success) {
-        setError('');
-        console.log(res);
-        toast.success('Link added!');
-        setSuccess(res.success);
-        closeModal();
-        // isLoading: false;
-      }
-    });
+    setError('');
+    setSuccess('');
+    const res = await setLink(data);
+    if (res.error) {
+      setError(res.error);
+      toast.error(res.error);
+    } else if (res.success) {
+      setSuccess(res.success);
+      toast.success('Link added!');
+      setOpen(false);
+      reset();
+    }
   };
 
   return (
-    <div>
-      {trigger(openModal)}
-      {isOpen && (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="fixed inset-0 bg-black/50  backdrop-blur-xs z-40 animate-in fade-in duration-300"
-        >
-          <div className="flex justify-center items-center h-screen">
-            <div className="flex flex-col justify-center items-center dark:bg-[#191919] border rounded-sm p-5 bg-white w-[30%]">
-              <div className="w-full flex flex-col gap-4">
-                {/* <h1 className='text-4xl'>Add Link</h1> */}
-                <div className=" flex flex-col gap-3">
-                  <Label htmlFor="title">Title</Label>
-                  <Input id="title" {...register('title')} />
-                  {errors.title && (
-                    <p className="text-sm text-red-500">
-                      {errors.title.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="url">URL</Label>
-                  <Input id="url" {...register('url')} />
-                  {errors.url && (
-                    <p className="text-sm text-red-500">{errors.url.message}</p>
-                  )}
-                </div>
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              {success && <p className="text-sm text-green-500">{success}</p>}
-              <div className="flex gap-4 pt-4 justify-center items-center">
-                <Button
-                  onClick={closeModal}
-                  variant="outline"
-                  className="w-full "
-                >
-                  Close
-                </Button>
-                <Button type='submit' className="w-full">
-                  {isLoading ? 'Loading...' : 'Add'}
-                  
-                </Button>
-              </div>
-            </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {trigger(() => setOpen(true))}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add Link</DialogTitle>
+          <DialogDescription>
+            Add a new link to your profile.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="grid gap-2">
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" {...register('title')} />
+            {errors.title && (
+              <p className="text-sm text-red-500">{errors.title.message}</p>
+            )}
           </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="url">URL</Label>
+            <Input id="url" {...register('url')} />
+            {errors.url && (
+              <p className="text-sm text-red-500">{errors.url.message}</p>
+            )}
+          </div>
+
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          {success && <p className="text-sm text-green-500">{success}</p>}
+
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button type="submit" disabled={addLoading}>
+              {addLoading ? 'Adding...' : 'Add'}
+            </Button>
+          </DialogFooter>
         </form>
-      )}
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
