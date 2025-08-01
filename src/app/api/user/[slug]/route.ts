@@ -1,17 +1,14 @@
 import { prisma } from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(context: { params: { slug: string } }) {
   try {
-    const { slug } = await params;
+    const { slug } = context.params;
 
     if (!slug) {
       return NextResponse.json(
         { message: 'Slug is required' },
-        { status: 404 }
+        { status: 400 }
       );
     }
 
