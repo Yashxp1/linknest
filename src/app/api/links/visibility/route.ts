@@ -44,6 +44,15 @@ export async function GET() {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
     }
 
+    const user = await prisma.user.findUnique({
+      where: {
+        email: session.user.email,
+      },
+    });
+    
+    if (!user?.id) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
 
     const visibleLinks = await prisma.link.findMany({
       where: {
@@ -59,6 +68,7 @@ export async function GET() {
         createdAt: true,
         updatedAt: true,
         userId: true,
+        visible: true,
       },
     });
 
