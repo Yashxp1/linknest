@@ -2,6 +2,7 @@ import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { profileSchema } from '@/schemas/profileSchema';
 import { NextRequest, NextResponse } from 'next/server';
+import { cloudinary } from '@/lib/cloudinary';
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,23 +29,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Invalid Input' }, { status: 401 });
     }
 
-    const validatedData = result.data;
+    // const validatedData = result.data;
+    const { image, name, location, bio } = result.data;
 
-    // const slug = generateSlug(
-    //   session.user.name || session.user.email || user.id
-    // );
+    let imageURL = '';
 
-    // console.log('SLUG --> ', slug);
+    if (image && !image.includes('res.cloudinary.com')) {
+      const uploadResult = await cloudinary.uploader.upload(image, {
+        folder: 'profiles',
+        upload_preset: 'your_unsigned_preset_if_any',
+      });
+      imageURL = uploadResult.secure_url;
+    } else {
+      imageURL = image || '';
+    }
 
     const profile = await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        bio: validatedData.bio,
-        location: validatedData.location,
-        image: validatedData.image,
-        // slug: slug,
+        name: name,
+        bio: bio,
+        location: location,
+        image: imageURL,
       },
     });
 
