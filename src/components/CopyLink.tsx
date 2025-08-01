@@ -30,7 +30,7 @@ export function CopyLink() {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       toast.success('Copied');
-      setTimeout(() => setCopied(false), 2000); // reset after 2 sec
+      setTimeout(() => setCopied(false), 2000); 
     } catch (err) {
       console.error('Copy failed:', err);
       toast.error('Failed to copy');

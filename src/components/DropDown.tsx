@@ -20,7 +20,7 @@ interface DropDownProps {
 }
 
 const DropDown = ({ link }: DropDownProps) => {
-  const { isLoading, deleteLink, getLink } = userLinkStore();
+  const { deleteLoading, deleteLink, getLink } = userLinkStore();
   // const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -52,8 +52,8 @@ const DropDown = ({ link }: DropDownProps) => {
 
               <DropdownMenuItem onClick={openModal}>Edit</DropdownMenuItem>
 
-              <DropdownMenuItem onClick={handleDelete} disabled={isLoading}>
-                {isLoading ? 'Deleting...' : 'Delete'}
+              <DropdownMenuItem onClick={handleDelete} disabled={deleteLoading}>
+                {deleteLoading ? 'Deleting...' : 'Delete'}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

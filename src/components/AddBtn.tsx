@@ -8,7 +8,6 @@ import EditProfileModal from './Modal/EditProfileModal';
 import { userProfileStore } from '@/store/profileStore';
 import { useSession } from 'next-auth/react';
 
-
 const AddBtn = () => {
   const { data: session } = useSession();
   const profile = userProfileStore((state) => state.profile);
@@ -26,15 +25,18 @@ const AddBtn = () => {
         <div className="w-full p-4 pb-6 flex flex-col">
           <div className="flex justify-between">
             <div className="flex items-center space-x-3 py-4">
-              <Image
-                src="/defaultPic.jpg"
-                alt="Profile Picture"
-                width={64}
-                height={64}
-                className="rounded-full object-cover border"
-              />
+              <div className="w-18 h-18 relative rounded-full overflow-hidden border">
+                <Image
+                  src={profile?.image || '/goku.jpg'}
+                  alt="Profile Picture"
+                  fill
+                  sizes="96px"
+                  className="object-cover"
+                />
+              </div>
+
               <div className="flex flex-col gap-0.5 leading-tight">
-                <span className="font-semibold">Yashxp1</span>
+                <span className="font-semibold"> {profile?.name}</span>
                 <p className="text-md">
                   {/* Full-Stack Developer */}
                   {profile?.bio}
@@ -70,6 +72,7 @@ const AddBtn = () => {
                 </div>
               )}
               profile={{
+                name: profile?.name ?? '',
                 bio: profile?.bio ?? '',
                 location: profile?.location ?? '',
                 image: profile?.image ?? '',
