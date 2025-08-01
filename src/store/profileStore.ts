@@ -5,6 +5,17 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { Link } from './linkStore';
 
+interface AxiosErrorResponse {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
+const isAxiosError = (error: unknown): error is AxiosErrorResponse => {
+  return error instanceof Error && 'response' in error;
+};
 
 const baseURL = '/api';
 
@@ -55,10 +66,9 @@ export const userProfileStore = create<ProfileStore>((set) => ({
       toast.success('Profile fetched successfully');
     } catch (error: unknown) {
       console.error(error);
-      const message =
-        error instanceof Error && 'response' in error
-          ? (error as any).response?.data?.message || 'Failed to get profile!'
-          : 'Failed to get profile!';
+      const message = isAxiosError(error)
+        ? error.response?.data?.message || 'Failed to get profile!'
+        : 'Failed to get profile!';
       toast.error(message);
     } finally {
       set({ isLoading: false });
@@ -77,10 +87,9 @@ export const userProfileStore = create<ProfileStore>((set) => ({
       return { success: 'Profile updated' };
     } catch (error: unknown) {
       console.error(error);
-      const message =
-        error instanceof Error && 'response' in error
-          ? (error as any).response?.data?.message || 'Failed to set profile'
-          : 'Failed to set profile';
+      const message = isAxiosError(error)
+        ? error.response?.data?.message || 'Failed to set profile'
+        : 'Failed to set profile';
       toast.error(message);
       return { error: message };
     } finally {
