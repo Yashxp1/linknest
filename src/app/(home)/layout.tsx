@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
+import Toolbar from '@/components/Toolbar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,17 +14,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
       <head />
       <body>
         <div>
           <div>
             <Navbar />
           </div>
-          <div>
+          <div className='hidden lg:flex'>
             <Sidebar />
           </div>
           {children}
+        </div>
+        <div className='flex lg:hidden'>
+          <Toolbar/>
         </div>
       </body>
     </html>
