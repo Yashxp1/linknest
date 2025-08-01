@@ -17,14 +17,14 @@ const MonaSansfont = Mona_Sans({
 
 const ShareableProfile = () => {
   const shared = userLinkStore((s) => s.shareableData);
-  const shareLink = userLinkStore((s) => s.shareLink); // ✅ get the function
-  const { isLoading } = userLinkStore();
+  const shareLink = userLinkStore((s) => s.shareLink); 
+  const { shareLoading } = userLinkStore();
   const { slug } = useParams() as { slug: string };
   
 
   useEffect(() => {
     if (slug) {
-      shareLink(slug); // ✅ this is what fetches the data
+      shareLink(slug); 
     }
   }, [slug]);
 
@@ -47,7 +47,7 @@ const ShareableProfile = () => {
         <div className="w-[21rem] mt-3">
           <div className="pl-5">
             <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text hover:from-blue-600 hover:to-purple-600 dark:from-white dark:to-gray-300 transition-all duration-300">
-              Yashxp1
+            {shared?.name || 'Name not set'}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-sm hover:text-gray-800 dark:hover:text-white transition-colors duration-200">
               {shared?.location || 'Location not set'}
@@ -57,7 +57,7 @@ const ShareableProfile = () => {
             </p>
           </div>
 
-          {shared?.links.length === 0 && !isLoading && (
+          {shared?.links.length === 0 && !shareLoading && (
             <div className="border border-dashed border-gray-300 dark:border-gray-700 rounded-2xl p-4 mt-4 text-center">
               <p className="text-gray-500 dark:text-gray-400">
                 No links found.
