@@ -1,9 +1,12 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
-export async function GET(context: { params: { slug: string } }) {
+export async function GET(
+  req: Request,
+  { params }: { params: { slug: string } }
+)  {
   try {
-    const { slug } = context.params;
+    const { slug } = params;
 
     if (!slug) {
       return NextResponse.json(
