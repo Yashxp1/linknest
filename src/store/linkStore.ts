@@ -27,10 +27,17 @@ type VisibleLink = Link;
 type ShareableData = Profile;
 
 type LinkStore = {
-  isLoading: boolean;
   links: Link[];
   visibleLinks: VisibleLink[];
   shareableData?: ShareableData;
+
+  linksLoading: boolean;
+  updateLoading: boolean;
+  deleteLoading: boolean;
+  visibilityLoading: boolean;
+  reorderLoading: boolean;
+  shareLoading: boolean;
+  addLoading: boolean;
 
   setLinks: (links: Link[]) => void;
 
@@ -63,15 +70,22 @@ type LinkStore = {
 };
 
 export const userLinkStore = create<LinkStore>((set, get) => ({
-  isLoading: false,
   links: [],
   visibleLinks: [],
   shareableData: undefined,
 
+  linksLoading: false,
+  updateLoading: false,
+  deleteLoading: false,
+  visibilityLoading: false,
+  reorderLoading: false,
+  shareLoading: false,
+  addLoading: false,
+
   setLinks: (links) => set({ links }),
 
   setLink: async (data) => {
-    set({ isLoading: true });
+    set({ addLoading: true });
     try {
       const res = await axios.post(`${baseURL}/links`, data);
       const response = res.data as { message?: string };
@@ -83,12 +97,12 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       toast.error(error.response?.data?.message || 'Failed to add link!');
       return { error: error.response?.data?.message || 'Failed to add link!' };
     } finally {
-      set({ isLoading: false });
+      set({ addLoading: false });
     }
   },
 
   getLink: async () => {
-    set({ isLoading: true });
+    set({ linksLoading: true });
     try {
       const res = await axios.get(`${baseURL}/links`);
       const response = res.data as { success: boolean; res: Link[] };
@@ -99,28 +113,30 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       toast.error(error.response?.data?.message || 'Failed to get link!');
       return { error: error.response?.data?.message || 'Failed to get link!' };
     } finally {
-      set({ isLoading: false });
+      set({ linksLoading: false });
     }
   },
 
   shareLink: async (slug) => {
-    set({ isLoading: true });
+    set({ shareLoading: true });
     try {
       const res = await axios.get(`${baseURL}/user/${slug}`);
       const response = res.data as { profile: ShareableData };
 
       set({ shareableData: response.profile });
       toast.success('User profile fetched');
-      console.log("USER DATA --->", response.profile);
+      console.log('USER DATA --->', response.profile);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to get shared link!');
+      toast.error(
+        error.response?.data?.message || 'Failed to get shared link!'
+      );
     } finally {
-      set({ isLoading: false });
+      set({ shareLoading: false });
     }
   },
 
   getVisibleLink: async () => {
-    set({ isLoading: true });
+    set({ visibilityLoading: true });
     try {
       const res = await axios.get(`${baseURL}/links/visibility`);
       const response = res.data as { success: boolean; res: Link[] };
@@ -132,12 +148,12 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       toast.error(error.response?.data?.message || 'Failed to get link!');
       return { error: error.response?.data?.message || 'Failed to get link!' };
     } finally {
-      set({ isLoading: false });
+      set({ visibilityLoading: false });
     }
   },
 
   updateLink: async (data) => {
-    set({ isLoading: true });
+    set({ updateLoading: true });
     try {
       const res = await axios.put(`${baseURL}/links`, data);
       const response = res.data as { message?: string };
@@ -149,12 +165,12 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
         error: error.response?.data?.message || 'Failed to update link!',
       };
     } finally {
-      set({ isLoading: false });
+      set({ updateLoading: false });
     }
   },
 
   deleteLink: async (data) => {
-    set({ isLoading: true });
+    set({ deleteLoading: true });
     try {
       const res = await axios.delete(`${baseURL}/links`, {
         data,
@@ -168,12 +184,14 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
         error: error.response?.data?.message || 'Failed to delete link!',
       };
     } finally {
-      set({ isLoading: false });
+      set({ deleteLoading: false });
     }
   },
 
   toggleVisibilty: async (linkId, visible) => {
-    try {
+    set({ visibilityLoading: true });
+    
+try {
       const res = await axios.put(`${baseURL}/links/visibility`, {
         linkId,
         visible,
@@ -188,12 +206,12 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       toast.error(message);
       return { error: message };
     } finally {
-      set({ isLoading: false });
+      set({ visibilityLoading: false });
     }
   },
 
   reorderLinks: async (orderedLinkIds) => {
-    set({ isLoading: true });
+    // set({ isLoading: true });
     try {
       await axios.put(`${baseURL}/links/reorder`, {
         orderedLinkIds,
@@ -207,8 +225,8 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       return {
         error: error.response?.data?.message || 'Failed to update order',
       };
-    } finally {
-      set({ isLoading: false });
+      // } finally {
+      //   set({ isLoading: false });
     }
   },
 }));

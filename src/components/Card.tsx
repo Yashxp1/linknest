@@ -7,7 +7,7 @@ import { userLinkStore } from '@/store/linkStore';
 import { SkeletonCard } from './SkeletonCard';
 
 const Card = () => {
-  const { isLoading, toggleVisibilty } = userLinkStore();
+  const { visibilityLoading, toggleVisibilty } = userLinkStore();
   const links = userLinkStore((state) => state.links);
   const getLink = userLinkStore((state) => state.getLink);
 
@@ -17,9 +17,9 @@ const Card = () => {
 
   return (
     <div className="m-4 space-y-3">
-      {/* {isLoading && <SkeletonCard />} */}
+      {/* {visibilityLoading && <SkeletonCard />} */}
 
-      {/* {links.length === 0 && !isLoading && (
+      {/* {links.length === 0 && !visibilityLoading && (
         <div className="border rounded-2xl p-4">
           <p className="text-gray-500">No links found.</p>
         </div>
@@ -50,8 +50,8 @@ const Card = () => {
             <div className="flex flex-col items-center gap-4 ml-4">
               {/* <Switch /> */}
               <Switch
-                checked={link.visible}
                 onCheckedChange={(checked) => toggleVisibilty(link.id, checked)}
+                checked={link.visible}
               />
 
               <DropDown
