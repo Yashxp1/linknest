@@ -43,8 +43,8 @@ export async function GET(
         status: 200,
       }
     );
-  } catch (error: any) {
-    console.error('Slug error');
+  } catch (error) {
+    console.error('Slug error', error);
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { userLinkStore } from '@/store/linkStore';
-import { Pencil, Plus } from 'lucide-react';
+import {  Plus } from 'lucide-react';
 // import { useEffect, useState } from 'react';
 import UpdateLinkModal from './Modal/UpdateLinkModal';
 

@@ -17,7 +17,7 @@ const AddBtn = () => {
     if (session?.user?.slug && !profile) {
       getProfile(session.user.slug);
     }
-  }, [session?.user?.slug]);
+  }, [session?.user?.slug, getProfile, profile]);
 
   return (
     <div className="flex justify-center w-full border-b items-center  pt-10">

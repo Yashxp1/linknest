@@ -1,10 +1,10 @@
-import { DarkModeToggle } from '@/components/DarkModeToggle';
-import { Button } from '@/components/ui/button';
+// import { DarkModeToggle } from '@/components/DarkModeToggle';
+// import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Manrope } from 'next/font/google';
-import { MoveRight } from 'lucide-react';
+// import { MoveRight } from 'lucide-react';
 import { FaArrowRight } from 'react-icons/fa';
 import Icons from './Icons';
 import Navbar from './Navbar';

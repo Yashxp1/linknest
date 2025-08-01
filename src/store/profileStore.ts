@@ -5,6 +5,7 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { Link } from './linkStore';
 
+
 const baseURL = '/api';
 
 export type Profile = {
@@ -28,8 +29,8 @@ type SetProfileResponse = {
 };
 
 type ProfileStore = {
-  isLoading: boolean;      
-  isSubmitting: boolean;  
+  isLoading: boolean;
+  isSubmitting: boolean;
   profile?: Profile;
 
   setProfile: (
@@ -47,12 +48,18 @@ export const userProfileStore = create<ProfileStore>((set) => ({
   getProfile: async (slug: string) => {
     set({ isLoading: true });
     try {
-      const res = await axios.get<GetProfileResponse>(`${baseURL}/user/${slug}`);
+      const res = await axios.get<GetProfileResponse>(
+        `${baseURL}/user/${slug}`
+      );
       set({ profile: res.data.profile });
       toast.success('Profile fetched successfully');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      toast.error(error.response?.data?.message || 'Failed to get profile!');
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to get profile!'
+          : 'Failed to get profile!';
+      toast.error(message);
     } finally {
       set({ isLoading: false });
     }
@@ -61,14 +68,21 @@ export const userProfileStore = create<ProfileStore>((set) => ({
   setProfile: async (data) => {
     set({ isSubmitting: true });
     try {
-      const res = await axios.post<SetProfileResponse>(`${baseURL}/profile`, data);
+      const res = await axios.post<SetProfileResponse>(
+        `${baseURL}/profile`,
+        data
+      );
       set({ profile: res.data.profile });
       toast.success('Profile updated!');
       return { success: 'Profile updated' };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      toast.error(error.response?.data?.message || 'Failed to set profile');
-      return { error: 'Something went wrong' };
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to set profile'
+          : 'Failed to set profile';
+      toast.error(message);
+      return { error: message };
     } finally {
       set({ isSubmitting: false });
     }

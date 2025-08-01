@@ -54,15 +54,15 @@ export async function POST(req: NextRequest) {
     });
     console.log(link);
     return NextResponse.json({ success: true, link }, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
 
-    if (error.name === 'ZodError') {
-      return NextResponse.json(
-        { success: false, message: error.errors },
-        { status: 400 }
-      );
-    }
+    // if (error.name === 'ZodError') {
+    //   return NextResponse.json(
+    //     { success: false, message: error.errors },
+    //     { status: 400 }
+    //   );
+    // }
 
     return NextResponse.json(
       { success: false, message: 'Server Error' },
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
 
@@ -123,7 +123,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { success: false, message: 'Server Error' },
+      { success: false, message: 'Server Error', error },
       { status: 500 }
     );
   }
@@ -170,7 +170,7 @@ export async function PUT(req: NextRequest) {
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: 'Server Error' },
+      { success: false, message: 'Server Error', error },
       { status: 500 }
     );
   }
@@ -234,7 +234,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { success: false, message: 'Server Error' },
+      { success: false, message: 'Server Error', error },
       { status: 500 }
     );
   }

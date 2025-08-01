@@ -22,7 +22,7 @@ type AuthState = {
   logout: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   isLoading: false,
 
   register: async (data) => {
@@ -33,25 +33,26 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
       toast.success('registered successfully');
       return true;
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.response?.data?.message || 'Registration failed');
+    } catch (error) {
+      toast.error('Registration failed');
+      console.log(error)
       return false;
     } finally {
       set({ isLoading: false });
     }
   },
   login: async (data: loginData) => {
-    set({isLoading: true})
+    set({ isLoading: true });
     try {
-      const res = await axios.post(`${baseURL}/auth/login`, data, {
+       await axios.post(`${baseURL}/auth/login`, data, {
         withCredentials: true,
       });
       toast.success('Signed in successfully');
       return true;
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      toast.error(error.response.data.message || 'Login failed');
+      toast.error( 'Login failed');
+      console.log(error)
       return false;
     } finally {
       set({ isLoading: false });
@@ -61,9 +62,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       await axios.post(`${baseURL}/api/logout`, {}, { withCredentials: true });
       toast.success('Logged out');
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      toast.error(error.response.data.message || 'Logout failed');
+      toast.error('Logout failed');
     } finally {
       set({ isLoading: false });
     }

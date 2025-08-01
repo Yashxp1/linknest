@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error('visibilty error', error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
 
@@ -78,6 +78,6 @@ export async function GET() {
     return NextResponse.json({ success: true,res: visibleLinks }, { status: 201 });
   } catch (error) {
     console.error('Error fetching visible links');
-    return NextResponse.json({ success: false }, { status: 500 });
+    return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }

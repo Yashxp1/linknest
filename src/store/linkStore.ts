@@ -93,9 +93,13 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       toast.success(response.message || 'Link added successfully');
       await get().getLink();
       return { success: response.message || 'Link added successfully' };
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to add link!');
-      return { error: error.response?.data?.message || 'Failed to add link!' };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to add link!'
+          : 'Failed to add link!';
+      toast.error(message);
+      return { error: message };
     } finally {
       set({ addLoading: false });
     }
@@ -109,9 +113,13 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       set({ links: response.res });
       await get().getVisibleLink();
       return { success: 'Links fetched successfully' };
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to get link!');
-      return { error: error.response?.data?.message || 'Failed to get link!' };
+    } catch (error: unknown) {
+      toast.error('Failed to get link!');
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to get link!'
+          : 'Failed to get link!';
+      return { error: message };
     } finally {
       set({ linksLoading: false });
     }
@@ -126,10 +134,13 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       set({ shareableData: response.profile });
       toast.success('User profile fetched');
       console.log('USER DATA --->', response.profile);
-    } catch (error: any) {
-      toast.error(
-        error.response?.data?.message || 'Failed to get shared link!'
-      );
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message ||
+            'Failed to get shared link!'
+          : 'Failed to get shared link!';
+      toast.error(message);
     } finally {
       set({ shareLoading: false });
     }
@@ -144,9 +155,13 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
 
       console.log('LINKS --->', response.res);
       return { success: 'Links fetched successfully' };
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to get link!');
-      return { error: error.response?.data?.message || 'Failed to get link!' };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to get link!'
+          : 'Failed to get link!';
+      toast.error(message);
+      return { error: message };
     } finally {
       set({ visibilityLoading: false });
     }
@@ -159,11 +174,13 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       const response = res.data as { message?: string };
       toast.success(response.message || 'Link updated successfully');
       return { success: response.message || 'Link updated successfully' };
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to update link!');
-      return {
-        error: error.response?.data?.message || 'Failed to update link!',
-      };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to update link!'
+          : 'Failed to update link!';
+      toast.error(message);
+      return { error: message };
     } finally {
       set({ updateLoading: false });
     }
@@ -172,17 +189,17 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
   deleteLink: async (data) => {
     set({ deleteLoading: true });
     try {
-      const res = await axios.delete(`${baseURL}/links`, {
-        data,
-      } as any);
+      const res = await axios.delete(`${baseURL}/links`);
       const response = res.data as { message?: string };
       toast.success(response.message || 'Link deleted successfully');
       return { success: response.message || 'Link deleted successfully' };
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to delete link!');
-      return {
-        error: error.response?.data?.message || 'Failed to delete link!',
-      };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to delete link!'
+          : 'Failed to delete link!';
+      toast.error(message);
+      return { error: message };
     } finally {
       set({ deleteLoading: false });
     }
@@ -190,8 +207,8 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
 
   toggleVisibilty: async (linkId, visible) => {
     set({ visibilityLoading: true });
-    
-try {
+
+    try {
       const res = await axios.put(`${baseURL}/links/visibility`, {
         linkId,
         visible,
@@ -200,9 +217,12 @@ try {
       await get().getLink();
       toast.success('Toggled');
       return { success: 'Toggled' };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const message =
-        error.response?.data?.message || 'Failed to toggle visibility';
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message ||
+            'Failed to toggle visibility'
+          : 'Failed to toggle visibility';
       toast.error(message);
       return { error: message };
     } finally {
@@ -220,11 +240,13 @@ try {
       await get().getLink();
       toast.success('Link order updated successfully');
       return { success: 'Link order updated successfully' };
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to update order');
-      return {
-        error: error.response?.data?.message || 'Failed to update order',
-      };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error && 'response' in error
+          ? (error as any).response?.data?.message || 'Failed to update order'
+          : 'Failed to update order';
+      toast.error(message);
+      return { error: message };
       // } finally {
       //   set({ isLoading: false });
     }

@@ -6,6 +6,7 @@ import { getUserById } from './data/user';
 import { getAccountByUserId } from './data/accounts';
 import { generateSlug } from './lib/GenerateSlug';
 
+
 // function getSlugSource(user: {
 //   name?: string | null;
 //   email?: string | null;
@@ -41,7 +42,7 @@ export const {
         return true;
       }
 
-      const existingUser = await getUserById(user.id ?? '');
+      // const existingUser = await getUserById(user.id ?? '');
       // if (!existingUser?.emailVerified) return false;
 
       return true;

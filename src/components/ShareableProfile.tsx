@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import React, { useEffect } from 'react';
 import { Mona_Sans } from 'next/font/google';
-import { userProfileStore } from '@/store/profileStore';
-import { useSession } from 'next-auth/react';
+// import { userProfileStore } from '@/store/profileStore';
+// import { useSession } from 'next-auth/react';
 import { userLinkStore } from '@/store/linkStore';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';

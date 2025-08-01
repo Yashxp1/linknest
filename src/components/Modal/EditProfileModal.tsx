@@ -19,7 +19,7 @@ interface editProfileModalProps {
     name: string;
     bio: string;
     location: string;
-    image: any;
+    image: string;
   };
 }
 const EditProfileModal = ({ trigger, profile }: editProfileModalProps) => {
@@ -59,7 +59,7 @@ const EditProfileModal = ({ trigger, profile }: editProfileModalProps) => {
     setIsOpen(true);
   };
 
-  const { isLoading, setProfile, getProfile } = userProfileStore();
+  const { isLoading, setProfile } = userProfileStore();
 
   const onSubmit = async (data: editProfileData) => {
     let imageURL = '';
@@ -84,7 +84,7 @@ const EditProfileModal = ({ trigger, profile }: editProfileModalProps) => {
         const result = await cloudinaryRes.json();
         imageURL = result.secure_url;
       } catch (error) {
-        toast.error('Image upload failed');
+        toast.error(error instanceof Error ? error.message : 'Image upload failed');
         return;
       }
     } else {

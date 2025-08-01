@@ -39,14 +39,14 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
       return NextResponse.json({ message: 'Slug not found' }, { status: 404 });
     }
 
-    const user = await prisma.user.create({
-      data: {
-        email: lowercaseEmail,
-        name,
-        password: hashPassword,
-        slug,
-      },
-    });
+    // const user = await prisma.user.create({
+    //   data: {
+    //     email: lowercaseEmail,
+    //     name,
+    //     password: hashPassword,
+    //     slug,
+    //   },
+    // });
 
     // const slug = generateSlug(user.id);
 

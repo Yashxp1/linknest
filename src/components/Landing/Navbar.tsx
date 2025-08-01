@@ -1,4 +1,4 @@
-import { AudioLines, Sparkles, Waves } from 'lucide-react';
+import { Sparkles} from 'lucide-react';
 import React from 'react';
 import { Button } from '../ui/button';
 import NextLink from 'next/link';

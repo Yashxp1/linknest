@@ -46,6 +46,7 @@ const UrlShortener = () => {
       toast.success('URL copied to clipboard!');
     } catch (error) {
       toast.error('Failed to copy URL');
+      console.log(error)
     }
   };
 
