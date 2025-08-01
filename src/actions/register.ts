@@ -19,7 +19,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
       return { error: 'Password do not match' };
     }
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    // const hashPassword = await bcrypt.hash(password, 10);
 
     const userExists = await prisma.user.findFirst({
       where: {

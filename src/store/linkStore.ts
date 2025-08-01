@@ -214,7 +214,7 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
     set({ visibilityLoading: true });
 
     try {
-      const res = await axios.put(`${baseURL}/links/visibility`, {
+      await axios.put(`${baseURL}/links/visibility`, {
         linkId,
         visible,
       });

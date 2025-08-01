@@ -1,15 +1,12 @@
-// types/next-auth.d.ts
-
+// src/types/next-auth.d.ts
 import type { DefaultSession } from 'next-auth';
+
 declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      slug: string;        
+      slug: string;
       isOauth?: boolean;
-    };
+    } & DefaultSession['user']; // ✅ use it here
   }
 }
