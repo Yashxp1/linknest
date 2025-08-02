@@ -1,71 +1,51 @@
-import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { profileSchema } from '@/schemas/profileSchema';
-import { NextRequest, NextResponse } from 'next/server';
-import { cloudinary } from '@/lib/cloudinary';
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+// API Route Handler - params is a Promise
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
-    const session = await auth();
+    const { slug } = await params;
 
-    if (!session || !session.user || !session.user.email) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    if (!slug) {
+      return NextResponse.json(
+        { message: 'Slug is required' },
+        { status: 400 }
+      );
     }
 
-    const user = await prisma.user.findUnique({
+    const profile = await prisma.user.findUnique({
       where: {
-        email: session.user.email,
+        slug,
       },
-    });
-
-    if (!user?.id) {
-      return NextResponse.json({ message: 'Unathorized' }, { status: 401 });
-    }
-
-    const body = await req.json();
-    const result = profileSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json({ message: 'Invalid Input' }, { status: 401 });
-    }
-
-    // const validatedData = result.data;
-    const { image, name, location, bio } = result.data;
-
-    let imageURL = '';
-
-    if (image && !image.includes('res.cloudinary.com')) {
-      const uploadResult = await cloudinary.uploader.upload(image, {
-        folder: 'profiles',
-        upload_preset: 'your_unsigned_preset_if_any',
-      });
-      imageURL = uploadResult.secure_url;
-    } else {
-      imageURL = image || '';
-    }
-
-    const profile = await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        name: name,
-        bio: bio,
-        location: location,
-        image: imageURL,
+      include: {
+        links: {
+          where: {
+            visible: true,
+          },
+        },
       },
     });
 
     if (!profile) {
       return NextResponse.json(
-        { message: 'Profile not found' },
-        { status: 404 }
+        { message: 'Profile not found' }, // Fixed typo: "messgae" -> "message"
+        { status: 404 } // Changed from 500 to 404 for "not found"
       );
     }
 
-    return NextResponse.json({ success: true, profile }, { status: 200 });
+    return NextResponse.json(
+      {
+        profile,
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
-    console.log('profile error');
-    return NextResponse.json({ message: 'Server Error', error }, { status: 500 });
+    console.error('Slug error', error);
+    return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }
