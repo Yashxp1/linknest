@@ -4,10 +4,11 @@ import { Grip } from 'lucide-react';
 import React, { useEffect } from 'react';
 import DropDown from './DropDown';
 import { userLinkStore } from '@/store/linkStore';
+import { SkeletonCard } from './SkeletonCard';
 // import { SkeletonCard } from './SkeletonCard';
 
 const Card = () => {
-  const {  toggleVisibilty } = userLinkStore();
+  const {  toggleVisibilty, visibilityLoading } = userLinkStore();
   const links = userLinkStore((state) => state.links);
   const getLink = userLinkStore((state) => state.getLink);
 
@@ -17,13 +18,13 @@ const Card = () => {
 
   return (
     <div className="m-4 space-y-3">
-      {/* {visibilityLoading && <SkeletonCard />} */}
+      {visibilityLoading && <SkeletonCard />}
 
-      {/* {links.length === 0 && !visibilityLoading && (
+      {links.length === 0 && !visibilityLoading && (
         <div className="border rounded-2xl p-4">
           <p className="text-gray-500">No links found.</p>
         </div>
-      )} */}
+      )}  
 
       {links.map((link) => (
         <div

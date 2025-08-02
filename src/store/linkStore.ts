@@ -192,12 +192,21 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
     }
   },
 
-  deleteLink: async () => {
+  deleteLink: async (data) => {
     set({ deleteLoading: true });
     try {
-      const res = await axios.delete(`${baseURL}/links`);
+      const res = await axios({
+        method: 'DELETE',
+        url: `${baseURL}/links`,
+        data,
+      });
+            
       const response = res.data as { message?: string };
       toast.success(response.message || 'Link deleted successfully');
+      
+      // Refresh the links after successful deletion
+      await get().getLink();
+      
       return { success: response.message || 'Link deleted successfully' };
     } catch (error: unknown) {
       const message = isAxiosError(error)

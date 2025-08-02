@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user?.id) {
-      return NextResponse.json({ message: 'Unathorized' }, { status: 401 });
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -207,14 +207,14 @@ export async function DELETE(req: NextRequest) {
 
     const { linkId } = result.data;
 
-    const existinfLink = await prisma.link.findFirst({
+    const existingLink = await prisma.link.findFirst({
       where: {
         id: linkId,
         userId: user.id,
       },
     });
 
-    if (!existinfLink) {
+    if (!existingLink) {
       return NextResponse.json(
         {
           message: 'Link not found',
