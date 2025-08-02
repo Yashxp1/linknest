@@ -101,7 +101,7 @@ const onSubmit = async (data: LoginFormData) => {
       </CardContent>
 
       <CardFooter className="flex flex-col items-center justify-center gap-2">
-        <Link href="/register" className="w-full">
+        <Link href="/auth/register" className="w-full">
           <Button variant="link" className="w-full text-center">
             Don’t have an account? Sign-up
           </Button>

@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { RegisterSchema } from '@/schemas/authSchema';
 import { useState } from 'react';
 import { register as registerUser } from '@/actions/register';
+import GoogleLogin from './GoogleLogin';
 
 type RegisterFormData = z.infer<typeof RegisterSchema>;
 
@@ -128,9 +129,7 @@ const RegisterForm = () => {
             {isLoading ? 'Registering...' : 'Register'}
           </Button>
 
-          <Button variant="outline" className="w-full" disabled>
-            Register with Google (Coming Soon)
-          </Button>
+          <GoogleLogin />
         </form>
       </CardContent>
 
