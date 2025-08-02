@@ -21,7 +21,7 @@ const isAxiosError = (error: unknown): error is AxiosErrorResponse => {
   return error instanceof Error && 'response' in error;
 };
 
-const baseURL = 'http://localhost:3000/api';
+const baseURL = '/api';
 
 export type Link = {
   id: string;
