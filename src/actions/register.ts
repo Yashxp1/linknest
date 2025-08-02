@@ -3,9 +3,11 @@ import { prisma } from '@/lib/prisma';
 import { RegisterSchema } from '@/schemas/authSchema';
 import * as z from 'zod';
 import { generateSlug } from '@/lib/GenerateSlug';
-import { NextResponse } from 'next/server';
 
-export const register = async (data: z.infer<typeof RegisterSchema>) => {
+
+export const register = async (
+  data: z.infer<typeof RegisterSchema>
+): Promise<{ error: string } | { success: string }> => {
   try {
     const validateData = RegisterSchema.parse(data);
     if (!validateData) {
@@ -35,7 +37,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     const slug = generateSlug(name || email);
 
     if (!slug) {
-      return NextResponse.json({ message: 'Slug not found' }, { status: 404 });
+      return { error: 'Slug not found' };
     }
 
     // const user = await prisma.user.create({
@@ -52,5 +54,6 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     return { success: `Email verification is sent on ${lowercaseEmail}` };
   } catch (error) {
     console.error(error);
+    return { error: 'Something went wrong. Please try again.' };
   }
 };

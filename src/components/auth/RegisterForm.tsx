@@ -50,9 +50,9 @@ const RegisterForm = () => {
     try {
       const res = await registerUser(data);
 
-      if (res?.error) {
+      if ('error' in res) {
         setError(res.error);
-      } else if (res?.success) {
+      } else if ('success' in res) {
         setSuccess(res.success);
         router.push('/auth/login'); // Adjust this route as needed
       }
