@@ -8,6 +8,7 @@ import { Manrope } from 'next/font/google';
 import { FaArrowRight } from 'react-icons/fa';
 import Icons from './Icons';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 const manropefont = Manrope({
   subsets: ['latin'],
@@ -100,7 +101,7 @@ const Hero = () => {
             2,000+ creators ,
           </span>
           <br />
-           freelancers, and{' '}
+          freelancers, and{' '}
           <span className="bg-gradient-to-r from-indigo-500 via-sky-500 to-cyan-400 bg-clip-text text-transparent font-semibold">
             businesses
           </span>
@@ -118,7 +119,9 @@ const Hero = () => {
       <div className="w-full">
         <Icons />
       </div>
-      {/* <DarkModeToggle /> */}
+      <div className='flex items-center justify-center'>
+        <Footer />
+      </div>
     </div>
   );
 };
