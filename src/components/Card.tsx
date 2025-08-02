@@ -4,7 +4,6 @@ import { Grip } from 'lucide-react';
 import React, { useEffect } from 'react';
 import DropDown from './DropDown';
 import { userLinkStore } from '@/store/linkStore';
-import { SkeletonCard } from './SkeletonCard';
 // import { SkeletonCard } from './SkeletonCard';
 
 const Card = () => {
