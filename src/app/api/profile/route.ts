@@ -66,6 +66,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, profile }, { status: 200 });
   } catch (error) {
     console.log('profile error');
-    return NextResponse.json({ message: 'Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Server Error', error },
+      { status: 500 }
+    );
   }
 }
