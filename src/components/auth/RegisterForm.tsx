@@ -128,9 +128,8 @@ const RegisterForm = () => {
           <Button type="submit" className="w-full mt-2" disabled={isLoading}>
             {isLoading ? 'Registering...' : 'Register'}
           </Button>
-
-          <GoogleLogin />
         </form>
+        <GoogleLogin />
       </CardContent>
 
       <CardFooter className="flex flex-col items-center justify-center gap-2">
