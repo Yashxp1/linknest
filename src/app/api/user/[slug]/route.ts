@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   req: Request,
-  { params }: { params: { slug: string } }
-)  {
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
     const { slug } = await params;
 
@@ -30,8 +30,8 @@ export async function GET(
 
     if (!profile) {
       return NextResponse.json(
-        { messgae: 'Profile not found' },
-        { status: 500 }
+        { message: 'Profile not found' }, 
+        { status: 404 } 
       );
     }
 
@@ -48,38 +48,3 @@ export async function GET(
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }
-
-// export async function GET() {
-//   try {
-//     const session = await auth();
-
-//     if (!session || !session.user?.email) {
-//       return NextResponse.json({ message: 'Unauthorized' }, { status: 500 });
-//     }
-
-//     const visibleLinks = await prisma.link.findMany({
-//       where: {
-//         userId: session?.user.id,
-//         visible: true,
-//       },
-//       orderBy: { createdAt: 'desc' },
-//       select: {
-//         id: true,
-//         title: true,
-//         url: true,
-//         order: true,
-//         createdAt: true,
-//         updatedAt: true,
-//         userId: true,
-//       },
-//     });
-
-//     if (!visibleLinks) {
-//       return NextResponse.json({ message: 'Links not found' }, { status: 404 });
-//     }
-//     return NextResponse.json({ success: true,res: visibleLinks }, { status: 201 });
-//   } catch (error) {
-//     console.error('Error fetching visible links');
-//     return NextResponse.json({ success: false }, { status: 500 });
-//   }
-// }
