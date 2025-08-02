@@ -1,13 +1,16 @@
-import NextLink from 'next/link'; // Rename to avoid clash with lucide's Link
+'use client';
+
+
+import NextLink from 'next/link';
 import { Link as LinkIcon, LogOut, User } from 'lucide-react';
 import React from 'react';
 import { DarkModeToggle } from './DarkModeToggle';
+import { signOut } from 'next-auth/react';
 
 const Sidebar = () => {
   return (
     <div className="h-screen border-r px-2 fixed top-0 left-0 bg-white dark:bg-[#0A0A0A] flex flex-col justify-between">
       <div className="flex flex-col items-center gap-2 pt-20">
-       
         <NextLink href="/dashboard">
           <div className="rounded-full p-2 border cursor-pointer">
             <User size={18} className="stroke-[1.2] hover:text-blue-400" />
@@ -25,9 +28,14 @@ const Sidebar = () => {
         <div>
           <DarkModeToggle />
         </div>
-        <div className="rounded-full p-2 border">
-          <LogOut size={18} className="stroke-[1.2] hover:text-red-500" />
-        </div>
+        {/* <div className="rounded-full p-2 border"> */}
+          <button
+            onClick={() => signOut()}
+            className="rounded-full p-2 border hover:text-red-500"
+          >
+            <LogOut size={18} className="stroke-[1.2]" />
+          </button>
+        {/* </div> */}
       </div>
     </div>
   );
