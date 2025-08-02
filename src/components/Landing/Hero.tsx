@@ -10,6 +10,7 @@ import Icons from './Icons';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+
 const manropefont = Manrope({
   subsets: ['latin'],
   weight: '400',
@@ -95,7 +96,7 @@ const Hero = () => {
             </div>
           </Link>
         </div>
-        <div className="mt-16 text-center text-2xl font-medium text-muted-foreground">
+        {/* <div className="mt-16 text-center text-2xl font-medium text-muted-foreground">
           Trusted by{' '}
           <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent font-semibold">
             2,000+ creators ,
@@ -103,23 +104,15 @@ const Hero = () => {
           <br />
           freelancers, and{' '}
           <span className="bg-gradient-to-r from-indigo-500 via-sky-500 to-cyan-400 bg-clip-text text-transparent font-semibold">
-            businesses
+            businesses.
           </span>
-          .
-        </div>
-      </div>
-      <div className="flex flex-col justify-center items-center ">
-        {/* <div>
-          <h2 className="text-xl text-center font-semibold">
-            Shorten URLs, unify all your links, <br /> and share a clean,
-            minimal profile—<span className="">effortlessly.</span>
-          </h2>
         </div> */}
       </div>
       <div className="w-full">
         <Icons />
       </div>
-      <div className='flex items-center justify-center'>
+
+      <div className="flex items-center justify-center">
         <Footer />
       </div>
     </div>

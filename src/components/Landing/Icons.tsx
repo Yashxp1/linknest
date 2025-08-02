@@ -26,7 +26,7 @@ const IconList = [
 
 const Icons = () => {
   return (
-    <div className="w-full py-12">
+    <div className="w-full pb-12">
       {/* Main title */}
       <div className="text-center mb-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
