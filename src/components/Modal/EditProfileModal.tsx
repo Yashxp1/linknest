@@ -33,7 +33,7 @@ const EditProfileModal = ({ trigger, profile }: editProfileModalProps) => {
     defaultValues: {
       bio: '',
       location: '',
-      image: '',
+      // image: '',
       name: '',
       // bio: profile.bio,
       // location: profile.location,
@@ -59,7 +59,7 @@ const EditProfileModal = ({ trigger, profile }: editProfileModalProps) => {
     setIsOpen(true);
   };
 
-  const { isLoading, setProfile } = userProfileStore();
+  const { isSubmitting, setProfile } = userProfileStore();
 
   const onSubmit = async (data: editProfileData) => {
     let imageURL = '';
@@ -171,7 +171,7 @@ const EditProfileModal = ({ trigger, profile }: editProfileModalProps) => {
                   Close
                 </Button>
                 <Button type="submit">
-                  {isLoading ? 'Saving...' : 'Save'}
+                  {isSubmitting ? 'Saving...' : 'Save'}
                 </Button>
               </div>
             </div>
