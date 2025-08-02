@@ -35,7 +35,7 @@ const Icons = () => {
             share your world
           </span>
         </h2>
-        <p className="text-base md:text-lg max-w-2xl mx-auto text-gray-600 dark:text-gray-400">
+        <p className="text-base md:text-md max-w-2xl mx-auto text-gray-600 dark:text-gray-400">
           Create your personalized link hub with powerful features designed for
           creators, professionals, and everyone in between.
         </p>

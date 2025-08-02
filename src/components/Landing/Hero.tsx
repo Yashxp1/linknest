@@ -10,7 +10,6 @@ import Icons from './Icons';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-
 const manropefont = Manrope({
   subsets: ['latin'],
   weight: '400',
@@ -63,26 +62,36 @@ const Hero = () => {
         />
       </div>
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center p-4">
+      <div className="relative z-10 flex pt-40 flex-col items-center justify-center p-4">
         <div className="relative z-10 flex flex-col items-center justify-center gap-8 text-center md:gap-12 lg:gap-12">
-          <h1 className="text-4xl leading-[1.1] font-bold tracking-[-0.02em] sm:flex-row md:text-4xl lg:text-6xl">
-            Your digital presence <br /> Simplified and{' '}
-            <span className="bg-gradient-to-br from-black to-white/5 bg-clip-text text-transparent dark:from-white dark:to-black/5">
-              unified
-            </span>
-          </h1>
-          <p className="mx-auto max-w-xs text-sm leading-tight sm:text-[16px]">
-            A minimal, clean hub to organize and share all your important links
-            in one place.
-          </p>
-          <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-black to-[#7FBEE4] opacity-40 blur-[60px]">
+          <div>
+            <h1 className="text-4xl leading-[1.1] font-bold tracking-[-0.02em] sm:flex-row md:text-4xl lg:text-6xl">
+              Your digital presence <br /> Simplified and{' '}
+              <span className="bg-gradient-to-br from-black to-white/5 bg-clip-text text-transparent dark:from-white dark:to-black/5">
+                unified
+              </span>
+            </h1>
+            <p className="mx-auto pt-4 max-w-xs text-sm leading-tight sm:text-[16px]">
+              A minimal, clean hub to organize and share all your important
+              links in one place.
+            </p>
+            <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-black to-[#7FBEE4] opacity-40 blur-[60px]">
+            <Image
+              src="/gradii1.png"
+              alt="Screenshot dark mode"
+              width={500}
+              height={500}
+            />
+          </div>
+          </div>
+          {/* <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-black to-[#7FBEE4] opacity-40 blur-[60px]">
             <Image
               src="/gradii1.png"
               alt="Screenshot dark mode"
               width={500}
               height={300}
             />
-          </div>
+          </div> */}
           <Link href="/auth/register">
             <div className="flex border  px-5 py-2 gap-2  items-center justify-center backdrop-blur-xs dark:bg-white/5 dark:border-white/5 bg-white/20 border-white/30">
               <div className="">
@@ -95,22 +104,14 @@ const Hero = () => {
               </div>
             </div>
           </Link>
+          <div className="w-full pt-20">
+            <Icons />
+          </div>
         </div>
-        {/* <div className="mt-16 text-center text-2xl font-medium text-muted-foreground">
-          Trusted by{' '}
-          <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent font-semibold">
-            2,000+ creators ,
-          </span>
-          <br />
-          freelancers, and{' '}
-          <span className="bg-gradient-to-r from-indigo-500 via-sky-500 to-cyan-400 bg-clip-text text-transparent font-semibold">
-            businesses.
-          </span>
-        </div> */}
       </div>
-      <div className="w-full">
+      {/* <div className="w-full">
         <Icons />
-      </div>
+      </div> */}
 
       <div className="flex items-center justify-center">
         <Footer />
