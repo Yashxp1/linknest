@@ -1,6 +1,6 @@
 # LinkNest 🧩
 
-A fully-featured, customizable Linktree clone built with **Next.js 14**, **Tailwind CSS**, **Prisma**, and **NextAuth**. Manage your bio, social links, and showcase multiple URLs from a single profile page — all in real time.
+A fully-featured, customizable Linktree clone built with **Next.js 14**, **Tailwind CSS**, **Prisma**, and **NextAuth**. Manage your bio, social links, and showcase multiple URLs from a single profile page, all in real time.
 ![alt text](image-2.png)
 ---
 
