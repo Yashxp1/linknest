@@ -18,7 +18,7 @@ const Card = () => {
 
   return (
     <div className="m-4 space-y-3">
-      {visibilityLoading && <SkeletonCard />}
+      {/* {visibilityLoading && <SkeletonCard />} */}
 
       {links.length === 0 && !visibilityLoading && (
         <div className="border rounded-2xl p-4">
