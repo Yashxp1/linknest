@@ -143,7 +143,7 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
 
       set({ shareableData: response.profile });
       toast.success('User profile fetched');
-      console.log('USER DATA --->', response.profile);
+      // console.log('USER DATA --->', response.profile);
     } catch (error: unknown) {
       const message = isAxiosError(error)
         ? error.response?.data?.message || 'Failed to get shared link!'
@@ -161,7 +161,7 @@ export const userLinkStore = create<LinkStore>((set, get) => ({
       const response = res.data as { success: boolean; res: Link[] };
       set({ visibleLinks: response.res });
 
-      console.log('LINKS --->', response.res);
+      // console.log('LINKS --->', response.res);
       return { success: 'Links fetched successfully' };
     } catch (error: unknown) {
       const message = isAxiosError(error)
